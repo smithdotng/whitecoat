@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title><%= pageTitle %> - LonelyPro Medical Lab</title>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/slick-theme.css">
+    <link rel="stylesheet" href="/assets/css/odometer.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+
+    <style>
+        .services-section {
+            padding: 60px 0;
+        }
+        
+        .test-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+            border-top: 4px solid;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .test-card.blood { border-top-color: #dc3545; }
+        .test-card.urine { border-top-color: #007bff; }
+        .test-card.panel { border-top-color: #28a745; }
+        .test-card.hormone { border-top-color: #ffc107; }
+        .test-card.std { border-top-color: #6f42c1; }
+        .test-card.other { border-top-color: #6c757d; }
+        
+        .test-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .badge-blood { background-color: #f8d7da; color: #721c24; }
+        .badge-urine { background-color: #d1ecf1; color: #0c5460; }
+        .badge-panel { background-color: #d4edda; color: #155724; }
+        .badge-hormone { background-color: #fff3cd; color: #856404; }
+        .badge-std { background-color: #e2d9f3; color: #422874; }
+        .badge-other { background-color: #f8f9fa; color: #343a40; }
+        
+        .test-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #28a745;
+            margin: 15px 0;
+        }
+        
+        .test-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .test-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        
+        .test-features li {
+            padding: 5px 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        .test-features li i {
+            color: #28a745;
+            margin-right: 8px;
+            width: 20px;
+        }
+        
+        .package-indicator {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('/assets/images/pattern.png');
+            opacity: 0.1;
+        }
+        
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .category-count {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        
+        .search-filter {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .stats-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .stats-label {
+            color: #666;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .test-action-btn {
+            width: 100%;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .test-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .empty-tests {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+        
+        .empty-tests i {
+            font-size: 60px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .empty-tests h4 {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .category-tabs {
+            margin-bottom: 40px;
+        }
+        
+        .category-tabs .nav-link {
+            color: #555;
+            font-weight: 600;
+            padding: 12px 25px;
+            border-radius: 8px;
+            margin-right: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .category-tabs .nav-link:hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+        
+        .category-tabs .nav-link.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .test-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .test-image.default {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .test-image.default i {
+            font-size: 60px;
+            color: white;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ==========Preloader Overlay Starts Here========== -->
+    <div class="overlayer">
+        <div class="loader">
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <div class="scrollToTop"><i class="fas fa-angle-up"></i></div>
+    <div class="overlay"></div>
+    <div class="overlayTwo"></div>
+    <!-- ==========Preloader Overlay Ends Here========== -->
+
+    <!-- ==========Header Section Starts Here========== -->
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-area">
+                    <ul class="left">
+                        <li>
+                            <i class="far fa-clock"></i> 9:30am - 6:30pm Mon - Sun
+                        </li>
+                        <li>
+                            <a href="tel:+8001234567"><i class="fas fa-phone-alt"></i> +800-123-4567</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i> Beverley, New York 224 US
+                        </li>
+                    </ul>
+                    <ul class="social-icons">
+                        <li>
+                            <a href="#"><i class="fab fa-facebook-messenger"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-vimeo-v"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-skype"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-wifi"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/assets/images/logo/logo.png" alt="LonelyPro Medical Lab">
+                        </a>
+                    </div>
+                    <div class="menu-area">
+                        <ul class="menu">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/services/tests" class="active">Our Tests</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                            <li><a href="/admin/dashboard">Admin Login</a></li>
+                        </ul>
+                        <div class="search-button">
+                            <a href="#">
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </div>
+                        <div class="cart-button">
+                            <a href="#">
+                                <span class="cart-amount">0</span>
+                                <i class="fas fa-shopping-basket"></i>
+                            </a>
+                        </div>
+                        <div class="header-bar d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="ellepsis-bar d-lg-none">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ==========Header Section Ends Here========== -->
+
+    <!-- ===========Header Search=========== -->
+    <div class="header-form">
+        <div class="bg-lay">
+            <div class="cross">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <form class="form-container">
+            <input type="text" placeholder="Search for tests..." name="search">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <!-- ===========Header Search=========== -->
+
+    <!-- ===========Header Cart=========== -->
+    <div class="cart-sidebar-area">
+        <div class="top-content">
+            <a href="/" class="logo">
+                <img src="/assets/images/logo/logo.png" alt="logo">
+            </a>
+            <span class="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="bottom-content">
+            <div class="cart-products">
+                <h4 class="title">Your Cart</h4>
+                <div class="cart-empty text-center py-5">
+                    <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Your cart is empty</p>
+                </div>
+                <div class="btn-wrapper text-center">
+                    <a href="/services/tests" class="custom-button"><span>Browse Tests</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===========Header Cart=========== -->
+
+    <!-- ==========Banner Section Starts Here========== -->
+    <section class="page-header bg_img" data-background="/assets/images/banner/page-header.jpg">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="title">Medical Tests & Services</h1>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        Services
+                    </li>
+                    <li>
+                        Medical Tests
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner Section Ends Here========== -->
+
+    <!-- ==========Services Section Starts Here========== -->
+    <section class="services-section padding-top padding-bottom">
+        <div class="container">
+            <!-- Statistics Cards -->
+            <div class="row mb-5">
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="stats-number"><%= totalTests %></div>
+                        <div class="stats-label">Total Tests Available</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="stats-number"><%= individualTests %></div>
+                        <div class="stats-label">Individual Tests</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="stats-number"><%= packageTests %></div>
+                        <div class="stats-label">Test Packages</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-filter">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search tests by name..." id="searchTests">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control nice-select" id="filterCategory">
+                            <option value="">All Categories</option>
+                            <option value="blood">Blood Tests</option>
+                            <option value="urine">Urine Tests</option>
+                            <option value="panel">Test Panels</option>
+                            <option value="hormone">Hormone Tests</option>
+                            <option value="std">STD Tests</option>
+                            <option value="other">Other Tests</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" id="sortTests">
+                            <option value="name">Sort by Name</option>
+                            <option value="price_low">Price: Low to High</option>
+                            <option value="price_high">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Tabs -->
+            <ul class="nav nav-pills category-tabs justify-content-center" id="categoryTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab">
+                        All Tests <span class="badge badge-light ml-1"><%= totalTests %></span>
+                    </a>
+                </li>
+                <% Object.keys(testsByCategory).forEach(category => { %>
+                <li class="nav-item">
+                    <a class="nav-link" id="<%= category %>-tab" data-toggle="tab" href="#<%= category %>" role="tab">
+                        <%= categoryNames[category] %> <span class="badge badge-light ml-1"><%= categoryCounts[category] %></span>
+                    </a>
+                </li>
+                <% }); %>
+            </ul>
+
+            <!-- Category Content -->
+            <div class="tab-content" id="categoryTabsContent">
+                <!-- All Tests Tab -->
+                <div class="tab-pane fade show active" id="all" role="tabpanel">
+                    <% if (tests && tests.length > 0) { %>
+                        <div class="row" id="allTestsList">
+                            <% tests.forEach(test => { %>
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="test-card <%= test.category %>">
+                                    <% if (test.imageUrl) { %>
+                                        <div class="test-image" style="background-image: url('<%= test.imageUrl %>');"></div>
+                                    <% } else { %>
+                                        <div class="test-image default">
+                                            <i class="fas fa-vial"></i>
+                                        </div>
+                                    <% } %>
+                                    
+                                    <span class="test-badge badge-<%= test.category %>">
+                                        <%= categoryNames[test.category] %>
+                                    </span>
+                                    
+                                    <h4>
+                                        <%= test.name %>
+                                        <% if (test.isPackage) { %>
+                                            <span class="package-indicator">Package</span>
+                                        <% } %>
+                                    </h4>
+                                    
+                                    <p class="test-description">
+                                        <%= test.description.length > 150 ? test.description.substring(0, 150) + '...' : test.description %>
+                                    </p>
+                                    
+                                    <div class="test-price">$<%= test.price %></div>
+                                    
+                                    <ul class="test-features">
+                                        <li><i class="fas fa-clock"></i> Turnaround: <%= test.turnaroundTime %></li>
+                                        <% if (test.requirements) { %>
+                                            <li><i class="fas fa-info-circle"></i> <%= test.requirements.substring(0, 50) %>...</li>
+                                        <% } %>
+                                        <% if (test.isPackage && test.items && test.items.length > 0) { %>
+                                            <li><i class="fas fa-boxes"></i> Includes <%= test.items.length %> tests</li>
+                                        <% } %>
+                                    </ul>
+                                    
+                                    <div class="d-flex gap-2">
+                                        <a href="/services/test/<%= test._id %>" class="btn btn-primary test-action-btn">
+                                            <i class="fas fa-info-circle"></i> View Details
+                                        </a>
+                                        <button class="btn btn-outline-success test-action-btn add-to-cart" data-test-id="<%= test._id %>">
+                                            <i class="fas fa-cart-plus"></i> Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <div class="empty-tests">
+                            <i class="fas fa-vial"></i>
+                            <h4>No Tests Available</h4>
+                            <p>Check back soon for our medical test offerings.</p>
+                        </div>
+                    <% } %>
+                </div>
+
+                <!-- Category Tabs -->
+                <% Object.keys(testsByCategory).forEach(category => { %>
+                <div class="tab-pane fade" id="<%= category %>" role="tabpanel">
+                    <div class="category-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h2 class="mb-3"><%= categoryNames[category] %></h2>
+                                <p class="mb-0"><%= categoryDescriptions[category] %></p>
+                                <div class="category-count">
+                                    <%= categoryCounts[category] %> tests available
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <i class="fas fa-vial category-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <% testsByCategory[category].forEach(test => { %>
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="test-card <%= test.category %>">
+                                <% if (test.imageUrl) { %>
+                                    <div class="test-image" style="background-image: url('<%= test.imageUrl %>');"></div>
+                                <% } else { %>
+                                    <div class="test-image default">
+                                        <i class="fas fa-vial"></i>
+                                    </div>
+                                <% } %>
+                                
+                                <span class="test-badge badge-<%= test.category %>">
+                                    <%= categoryNames[test.category] %>
+                                </span>
+                                
+                                <h4>
+                                    <%= test.name %>
+                                    <% if (test.isPackage) { %>
+                                        <span class="package-indicator">Package</span>
+                                    <% } %>
+                                </h4>
+                                
+                                <p class="test-description">
+                                    <%= test.description.length > 150 ? test.description.substring(0, 150) + '...' : test.description %>
+                                </p>
+                                
+                                <div class="test-price">$<%= test.price %></div>
+                                
+                                <ul class="test-features">
+                                    <li><i class="fas fa-clock"></i> Turnaround: <%= test.turnaroundTime %></li>
+                                    <% if (test.requirements) { %>
+                                        <li><i class="fas fa-info-circle"></i> <%= test.requirements.substring(0, 50) %>...</li>
+                                    <% } %>
+                                    <% if (test.isPackage && test.items && test.items.length > 0) { %>
+                                        <li><i class="fas fa-boxes"></i> Includes <%= test.items.length %> tests</li>
+                                    <% } %>
+                                </ul>
+                                
+                                <div class="d-flex gap-2">
+                                    <a href="/services/test/<%= test._id %>" class="btn btn-primary test-action-btn">
+                                        <i class="fas fa-info-circle"></i> View Details
+                                    </a>
+                                    <button class="btn btn-outline-success test-action-btn add-to-cart" data-test-id="<%= test._id %>">
+                                        <i class="fas fa-cart-plus"></i> Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+
+            <!-- Test Packages Section -->
+            <% 
+                const packageTestsList = tests.filter(test => test.isPackage);
+                if (packageTestsList.length > 0) { 
+            %>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="category-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h2 class="mb-3">Test Packages & Bundles</h2>
+                                <p class="mb-0">Save money with our comprehensive test packages. Each package includes multiple tests at a discounted rate for complete health assessment.</p>
+                                <div class="category-count">
+                                    <%= packageTestsList.length %> packages available
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <i class="fas fa-boxes category-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <% packageTestsList.forEach(test => { %>
+                <div class="col-lg-6 mb-4">
+                    <div class="test-card panel">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <% if (test.imageUrl) { %>
+                                    <div class="test-image" style="background-image: url('<%= test.imageUrl %>'); height: 100%; min-height: 200px;"></div>
+                                <% } else { %>
+                                    <div class="test-image default" style="height: 100%; min-height: 200px;">
+                                        <i class="fas fa-boxes"></i>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="col-md-7">
+                                <span class="test-badge badge-panel">
+                                    Test Package
+                                </span>
+                                
+                                <h4><%= test.name %></h4>
+                                
+                                <p class="test-description">
+                                    <%= test.description.length > 100 ? test.description.substring(0, 100) + '...' : test.description %>
+                                </p>
+                                
+                                <div class="test-price">$<%= test.price %></div>
+                                
+                                <ul class="test-features">
+                                    <li><i class="fas fa-clock"></i> Turnaround: <%= test.turnaroundTime %></li>
+                                    <% if (test.items && test.items.length > 0) { %>
+                                        <li><i class="fas fa-boxes"></i> Includes <%= test.items.length %> individual tests</li>
+                                    <% } %>
+                                    <li><i class="fas fa-percentage"></i> Save up to 30% compared to individual tests</li>
+                                </ul>
+                                
+                                <div class="d-flex gap-2">
+                                    <a href="/services/test/<%= test._id %>" class="btn btn-primary test-action-btn">
+                                        <i class="fas fa-info-circle"></i> View Package Details
+                                    </a>
+                                    <button class="btn btn-outline-success test-action-btn add-to-cart" data-test-id="<%= test._id %>">
+                                        <i class="fas fa-cart-plus"></i> Add Package
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+            <% } %>
+
+            <!-- FAQ Section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Frequently Asked Questions</h4>
+                            <div class="accordion" id="faqAccordion">
+                                <div class="card">
+                                    <div class="card-header" id="faq1">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1">
+                                                How do I prepare for my test?
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapse1" class="collapse show" data-parent="#faqAccordion">
+                                        <div class="card-body">
+                                            Preparation requirements vary by test. Some tests require fasting (no food or drink except water for 8-12 hours), while others have no special preparation. Check the specific requirements for your test on the details page.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="faq2">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse2">
+                                                How long does it take to get results?
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapse2" class="collapse" data-parent="#faqAccordion">
+                                        <div class="card-body">
+                                            Most test results are available within 24-48 hours. Some specialized tests may take 3-5 business days. You'll receive results via email or can access them through your patient portal.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="faq3">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse3">
+                                                Do I need a doctor's referral?
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapse3" class="collapse" data-parent="#faqAccordion">
+                                        <div class="card-body">
+                                            Most tests do not require a doctor's referral. However, some specialized tests or insurance-covered tests may require a physician's order. Check the test details or contact us for specific requirements.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Services Section Ends Here========== -->
+
+    <!-- ==========Footer Section Starts Here========== -->
+    <footer>
+        <div class="footer-top">
+            <div class="ft-top">
+                <div class="container">
+                    <div class="row no-gutters justify-content-center">
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/01.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Phone: +800-123-4567</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/02.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Email: info@lonelyprolab.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/03.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Address: Beverley, New York 224 US</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ft-bottom">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-about">
+                                        <h5 class="title text-uppercase">About LONELY PRO LAB</h5>
+                                        <p>
+                                            LonelyPro Medical Laboratory is a state-of-the-art diagnostic facility 
+                                            offering comprehensive medical testing services with accurate results, 
+                                            quick turnaround times, and compassionate patient care.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-blog">
+                                        <h5 class="title text-uppercase">Popular Tests</h5>
+                                        <ul class="footer-blog">
+                                            <% if (tests && tests.length > 0) { %>
+                                                <% tests.slice(0, 2).forEach(test => { %>
+                                                <li>
+                                                    <div class="content">
+                                                        <a href="/services/test/<%= test._id %>"><%= test.name %></a>
+                                                        <span>$<%= test.price %></span>
+                                                    </div>
+                                                </li>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <li>
+                                                    <div class="content">
+                                                        <a href="#">No tests available</a>
+                                                        <span>Check back soon</span>
+                                                    </div>
+                                                </li>
+                                            <% } %>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 pl-xl-4">
+                                    <div class="footer-widget widgt-form">
+                                        <h5 class="title text-uppercase">Health Newsletter</h5>
+                                        <p>Subscribe for health tips, new test announcements, and special offers.</p>
+                                        <form class="footer-form">
+                                            <input type="email" placeholder="Enter your email" name="email">
+                                            <button type="submit">
+                                                <span>Subscribe <i class="far fa-paper-plane ml-2"></i></span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="text-center">
+                    <p class="mb-0">&copy; 2023 <a href="/">Lonely Pro Medical Lab</a> - Advanced Diagnostic Services.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ==========Footer Section Ends Here========== -->
+    
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="/assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/magnific-popup.min.js"></script>
+    <script src="/assets/js/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+    <script src="/assets/js/waypoints.js"></script>
+    <script src="/assets/js/odometer.min.js"></script>
+    <script src="/assets/js/viewport.jquery.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Initialize nice-select
+            $('.nice-select').niceSelect();
+            
+            // Search functionality
+            $('#searchTests').on('keyup', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                const category = $('#filterCategory').val();
+                const sortBy = $('#sortTests').val();
+                
+                filterAndSortTests(searchTerm, category, sortBy);
+            });
+            
+            // Filter and sort functionality
+            $('#filterCategory, #sortTests').change(function() {
+                const searchTerm = $('#searchTests').val().toLowerCase();
+                const category = $('#filterCategory').val();
+                const sortBy = $('#sortTests').val();
+                
+                filterAndSortTests(searchTerm, category, sortBy);
+            });
+            
+            // Add to cart functionality
+            $('.add-to-cart').click(function() {
+                const testId = $(this).data('test-id');
+                const testName = $(this).closest('.test-card').find('h4').text().trim();
+                
+                // Get current cart
+                let cart = JSON.parse(localStorage.getItem('medicalCart') || '[]');
+                
+                // Check if already in cart
+                const existingIndex = cart.findIndex(item => item.testId === testId);
+                
+                if (existingIndex > -1) {
+                    cart[existingIndex].quantity += 1;
+                } else {
+                    cart.push({
+                        testId: testId,
+                        name: testName,
+                        quantity: 1
+                    });
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('medicalCart', JSON.stringify(cart));
+                
+                // Update cart count
+                updateCartCount();
+                
+                // Show success message
+                showAlert('success', `${testName} added to cart!`);
+            });
+            
+            // Update cart count on page load
+            updateCartCount();
+            
+            // Category tab activation on scroll
+            $(window).scroll(function() {
+                const scrollPos = $(document).scrollTop();
+                
+                $('.tab-pane').each(function() {
+                    const id = $(this).attr('id');
+                    const offset = $(this).offset().top - 100;
+                    const height = $(this).outerHeight();
+                    
+                    if (scrollPos >= offset && scrollPos < offset + height) {
+                        $(`.nav-link[href="#${id}"]`).tab('show');
+                    }
+                });
+            });
+        });
+        
+        function filterAndSortTests(searchTerm, category, sortBy) {
+            $('.test-card').each(function() {
+                const testName = $(this).find('h4').text().toLowerCase();
+                const testDescription = $(this).find('.test-description').text().toLowerCase();
+                const testCategory = $(this).hasClass(category) || category === '';
+                
+                const nameMatch = testName.includes(searchTerm);
+                const descMatch = testDescription.includes(searchTerm);
+                const searchMatch = searchTerm === '' || nameMatch || descMatch;
+                
+                if (searchMatch && testCategory) {
+                    $(this).parent().show();
+                } else {
+                    $(this).parent().hide();
+                }
+            });
+            
+            // Sort functionality
+            if (sortBy === 'name') {
+                sortTestCards((a, b) => {
+                    const nameA = $(a).find('h4').text().toLowerCase();
+                    const nameB = $(b).find('h4').text().toLowerCase();
+                    return nameA.localeCompare(nameB);
+                });
+            } else if (sortBy === 'price_low') {
+                sortTestCards((a, b) => {
+                    const priceA = parseFloat($(a).find('.test-price').text().replace('$', ''));
+                    const priceB = parseFloat($(b).find('.test-price').text().replace('$', ''));
+                    return priceA - priceB;
+                });
+            } else if (sortBy === 'price_high') {
+                sortTestCards((a, b) => {
+                    const priceA = parseFloat($(a).find('.test-price').text().replace('$', ''));
+                    const priceB = parseFloat($(b).find('.test-price').text().replace('$', ''));
+                    return priceB - priceA;
+                });
+            }
+        }
+        
+        function sortTestCards(compareFunction) {
+            const $container = $('#allTestsList');
+            const $items = $container.children('.col-lg-4.col-md-6.mb-4').get();
+            
+            $items.sort(compareFunction);
+            $container.empty().append($items);
+        }
+        
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('medicalCart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            $('.cart-amount').text(totalItems);
+        }
+        
+        function showAlert(type, message) {
+            // Create alert element
+            const alertHtml = `
+                <div class="alert alert-${type} alert-dismissible fade show position-fixed" 
+                     style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+                    ${message}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            `;
+            
+            // Remove any existing alerts
+            $('.alert.position-fixed').remove();
+            
+            // Add new alert
+            $('body').append(alertHtml);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                $('.alert.position-fixed').alert('close');
+            }, 3000);
+        }
+        
+        // Smooth scroll for category tabs
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+            const target = $(e.target).attr("href");
+            if (target !== '#all') {
+                $('html, body').animate({
+                    scrollTop: $(target).offset().top - 100
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>

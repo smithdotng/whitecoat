@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title><%= pageTitle %> - Medical Lab</title>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/slick-theme.css">
+    <link rel="stylesheet" href="/assets/css/odometer.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+
+    <style>
+        .form-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .form-section h4 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .package-item {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .package-item h6 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .item-select-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .item-select-row select,
+        .item-select-row input {
+            flex: 1;
+        }
+        
+        .add-item-btn, .add-package-btn {
+            margin-top: 10px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        
+        .required:after {
+            content: " *";
+            color: #dc3545;
+        }
+        
+        .package-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #28a745;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        #packageSection {
+            display: none;
+        }
+        
+        .test-info {
+            background: #f0f8ff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 10px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .test-info h6 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .alert {
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+    
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+    
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffeaa7;
+        color: #856404;
+    }
+    
+    .alert-info {
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+        color: #0c5460;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- ==========Preloader Overlay Starts Here========== -->
+    
+    <div class="scrollToTop"><i class="fas fa-angle-up"></i></div>
+    <div class="overlay"></div>
+    <div class="overlayTwo"></div>
+    <!-- ==========Preloader Overlay Ends Here========== -->
+
+    <!-- ==========Header Section Starts Here========== -->
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-area">
+                    <ul class="left">
+                        <li>
+                            <i class="far fa-clock"></i> Always Live
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-phone-alt"></i>+234 701 403 2350</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i> Abuja FCT
+                        </li>
+                    </ul>
+                    <ul class="social-icons">
+                        <li>
+                            <a href="#"><i class="fab fa-facebook-messenger"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-vimeo-v"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-skype"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-wifi"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/assets/images/logo/logo.png" alt="logo" style="width: 200px;">
+                        </a>
+                    </div>
+                    <div class="menu-area">
+                        <ul class="menu">
+                            <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+                            <li><a href="/admin/add-test" class="admin-menu-active">Add Test</a></li>
+                            <li><a href="/admin/manage-tests">Manage Tests</a></li>
+                            <li><a href="/admin/view-tests">View Tests</a></li>
+                            <li><a href="/admin/view-requests">Patient Requests</a></li>
+                            <li><a href="/admin/create-admin">Add Staff</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                        <div class="search-button">
+                            <a href="#">
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </div>
+                        <div class="header-bar d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="ellepsis-bar d-lg-none">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ==========Header Section Ends Here========== -->
+
+    <!-- ===========Header Search=========== -->
+    <div class="header-form">
+        <div class="bg-lay">
+            <div class="cross">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <form class="form-container">
+            <input type="text" placeholder="Input Your Search" name="name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <!-- ===========Header Search=========== -->
+
+    <!-- ===========Header Cart=========== -->
+    <div class="cart-sidebar-area">
+        <div class="top-content">
+            <a href="/" class="logo">
+                <img src="/assets/images/logo/logo.png" alt="logo">
+            </a>
+            <span class="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="bottom-content">
+            <div class="cart-products">
+                <h4 class="title">Shopping cart</h4>
+                <div class="single-product-item">
+                    <div class="thumb">
+                        <img src="/assets/images/shop/01.png" alt="shop">
+                    </div>
+                    <div class="content">
+                        <h4 class="title">Color Pencil</h4>
+                        <div class="price"><span class="pprice">$80.00</span> <del class="dprice">$120.00</del></div>
+                        <a href="#" class="remove-cart">Remove</a>
+                    </div>
+                </div>
+                <div class="btn-wrapper text-center">
+                    <a href="#" class="custom-button"><span>Checkout</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===========Header Cart=========== -->
+
+    <!-- ==========Banner Section Starts Here========== -->
+    <section class="page-header bg_img" data-background="/assets/images/banner/page-header.jpg">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="title">Add New Medical Test</h1>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/admin/dashboard">Admin</a>
+                    </li>
+                    <li>
+                        Add Medical Test
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner Section Ends Here========== -->
+
+    <% if (success_msg && success_msg.length > 0) { %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= success_msg %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<% } %>
+
+<% if (error_msg && error_msg.length > 0) { %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= error_msg %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<% } %>
+
+    <!-- ==========Add Test Section Starts Here========== -->
+    <section class="events-single-section padding-top padding-bottom">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="form-section">
+                        <h4>Medical Test Information</h4>
+                        <form id="addTestForm" action="/admin/add-test" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required">Test Name</label>
+                                        <input type="text" class="form-control" name="name" required 
+                                               placeholder="e.g., Complete Blood Count (CBC)">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required">Category</label>
+                                        <select class="form-control nice-select" name="category" required>
+                                            <option value="">Select Test Category</option>
+                                            <% categories.forEach(category => { %>
+                                                <option value="<%= category.id %>"><%= category.name %></option>
+                                            <% }); %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label required">Description</label>
+                                        <textarea class="form-control" name="description" rows="3" required 
+                                                  placeholder="Describe the test, what it measures, and its purpose"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label required">Price ($)</label>
+                                        <input type="number" class="form-control" name="price" min="0" step="0.01" required 
+                                               placeholder="e.g., 49.99">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Turnaround Time</label>
+                                        <input type="text" class="form-control" name="turnaroundTime" 
+                                               placeholder="e.g., 24-48 hours" value="24-48 hours">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Status</label>
+                                        <select class="form-control" name="isActive">
+                                            <option value="true">Active</option>
+                                            <option value="false">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr class="my-4">
+                            
+                            <!-- Package Toggle -->
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label package-toggle">
+                                            Is this a Test Package?
+                                            <label class="toggle-switch ml-3">
+                                                <input type="checkbox" id="isPackageToggle" name="isPackage" value="false">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </label>
+                                        <small class="form-text text-muted">
+                                            A test package includes multiple individual tests at a bundled price.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Package Items Section (Hidden by default) -->
+                            <div id="packageSection">
+                                <h5>Package Items</h5>
+                                <div class="test-info mb-3">
+                                    <h6>Package Information</h6>
+                                    <p class="mb-0">Add individual tests that are included in this package. The package price should reflect the bundled discount.</p>
+                                </div>
+                                
+                                <div id="packageItemsContainer">
+                                    <div class="package-item" id="packageItem-1">
+                                        <div class="item-select-row">
+                                            <select class="form-control item-select" name="itemName[]" onchange="showTestInfo(this, 1)">
+                                                <option value="">Select Test</option>
+                                                <% allTests.forEach(test => { %>
+                                                    <option value="<%= test._id %>"><%= test.name %> ($<%= test.price %>)</option>
+                                                <% }); %>
+                                            </select>
+                                            <input type="number" class="form-control" name="itemQuantity[]" min="1" value="1" placeholder="Qty" style="max-width: 100px;">
+                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePackageItem(1)" disabled>
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                        <div id="testInfo-1" class="test-info" style="display: none;">
+                                            <!-- Test info will be displayed here -->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-outline-primary add-item-btn" onclick="addPackageItem()">
+                                    <i class="fas fa-plus"></i> Add Another Test to Package
+                                </button>
+                            </div>
+                            
+                            <hr class="my-4">
+                            
+                            <!-- Test Requirements -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Patient Requirements</label>
+                                        <textarea class="form-control" name="requirements" rows="3" 
+                                                  placeholder="Enter any patient preparation requirements (e.g., fasting, medication restrictions)"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-save"></i> Save Medical Test
+                                </button>
+                                <button type="reset" class="btn btn-outline-secondary btn-lg px-5 ml-2">
+                                    <i class="fas fa-redo"></i> Reset Form
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Add Test Section Ends Here========== -->
+
+    <!-- ==========Footer Section Starts Here========== -->
+    <footer>
+        <div class="footer-top">
+            <div class="ft-top">
+                <div class="container">
+                    <div class="row no-gutters justify-content-center">
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/01.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Phone Number : +800-123-4567 6587</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/02.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Email : admin@lonelypro.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/03.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Address : Beverley, New York 224 US</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ft-bottom">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-about">
+                                        <h5 class="title text-uppercase">About LONELY PRO</h5>
+                                        <p>
+                                            LonelyPro is a comprehensive medical laboratory dedicated to providing 
+                                            accurate diagnostic testing and health assessment services.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-blog">
+                                        <h5 class="title text-uppercase">Lab Updates</h5>
+                                        <ul class="footer-blog">
+                                            <li>
+                                                <div class="content">
+                                                    <a href="#">New Diagnostic Tests Available</a>
+                                                    <span>November 15, 2023</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="content">
+                                                    <a href="#">Enhanced Testing Equipment</a>
+                                                    <span>November 10, 2023</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 pl-xl-4">
+                                    <div class="footer-widget widgt-form">
+                                        <h5 class="title text-uppercase">Lab Newsletter</h5>
+                                        <p>Subscribe to receive updates about new tests and services.</p>
+                                        <form class="footer-form">
+                                            <input type="email" placeholder="Enter your email" name="email">
+                                            <button type="submit">
+                                                <span>Subscribe <i class="far fa-paper-plane ml-2"></i></span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="text-center">
+                    <p class="mb-0">&copy; 2023 <a href="/">Lonely Pro Medical Lab</a> - Admin Dashboard v1.0</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ==========Footer Section Ends Here========== -->
+    
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="/assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/magnific-popup.min.js"></script>
+    <script src="/assets/js/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+    <script src="/assets/js/waypoints.js"></script>
+    <script src="/assets/js/odometer.min.js"></script>
+    <script src="/assets/js/viewport.jquery.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    
+    <script>
+    let packageItemCount = 1;
+    const testData = {
+        <% if (allTests && allTests.length > 0) { %>
+            <% allTests.forEach(test => { %>
+                '<%= test._id %>': {
+                    name: '<%= test.name ? test.name.replace(/'/g, "\\'") : "" %>',
+                    description: '<%= test.description ? test.description.replace(/'/g, "\\'") : "" %>',
+                    price: <%= test.price || 0 %>,
+                    category: '<%= test.category || "" %>',
+                    turnaroundTime: '<%= test.turnaroundTime || "24-48 hours" %>'
+                },
+            <% }); %>
+        <% } %>
+    };
+    
+    $(document).ready(function() {
+        // Initialize nice-select
+        $('.nice-select').niceSelect();
+        
+        // Package toggle functionality
+        $('#isPackageToggle').change(function() {
+            const isChecked = $(this).prop('checked');
+            $(this).val(isChecked ? 'true' : 'false');
+            
+            if (isChecked) {
+                $('#packageSection').show();
+            } else {
+                $('#packageSection').hide();
+            }
+        });
+        
+        // Form validation
+        $('#addTestForm').on('submit', function(e) {
+            // Validate price is positive
+            const price = $('[name="price"]').val();
+            if (parseFloat(price) < 0) {
+                e.preventDefault();
+                alert('Price cannot be negative.');
+                return false;
+            }
+            
+            // If it's a package, validate at least one item
+            if ($('#isPackageToggle').prop('checked')) {
+                const hasItems = $('.item-select').filter(function() {
+                    return $(this).val() !== '';
+                }).length > 0;
+                
+                if (!hasItems) {
+                    e.preventDefault();
+                    alert('Please add at least one test to the package.');
+                    return false;
+                }
+            }
+            
+            return true;
+        });
+        
+        // Add active class to current menu item
+        const currentPath = window.location.pathname;
+        $('.menu a').each(function() {
+            if ($(this).attr('href') === currentPath) {
+                $(this).addClass('admin-menu-active');
+            }
+        });
+        
+        // Clear URL parameters after displaying messages
+        if (window.location.search.includes('success=') || 
+            window.location.search.includes('error=') ||
+            window.location.search.includes('warning=') ||
+            window.location.search.includes('info=')) {
+            
+            // Remove the parameters from URL after a delay
+            setTimeout(() => {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }, 3000);
+        }
+    });
+    
+    function addPackageItem() {
+        packageItemCount++;
+        
+        const newItemHTML = `
+            <div class="package-item" id="packageItem-${packageItemCount}">
+                <div class="item-select-row">
+                    <select class="form-control item-select" name="itemName[]" onchange="showTestInfo(this, ${packageItemCount})">
+                        <option value="">Select Test</option>
+                        <% if (allTests && allTests.length > 0) { %>
+                            <% allTests.forEach(test => { %>
+                                <option value="<%= test._id %>"><%= test.name || "Unnamed Test" %> ($<%= test.price || 0 %>)</option>
+                            <% }); %>
+                        <% } %>
+                    </select>
+                    <input type="number" class="form-control" name="itemQuantity[]" min="1" value="1" placeholder="Qty" style="max-width: 100px;">
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePackageItem(${packageItemCount})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="testInfo-${packageItemCount}" class="test-info" style="display: none;">
+                    <!-- Test info will be displayed here -->
+                </div>
+            </div>
+        `;
+        
+        $('#packageItemsContainer').append(newItemHTML);
+    }
+    
+    function removePackageItem(itemId) {
+        $(`#packageItem-${itemId}`).remove();
+    }
+    
+    function showTestInfo(selectElement, itemId) {
+        const testId = $(selectElement).val();
+        const testInfoDiv = $(`#testInfo-${itemId}`);
+        
+        if (testId && testData[testId]) {
+            const test = testData[testId];
+            const infoHTML = `
+                <h6>${test.name}</h6>
+                <p class="mb-1"><strong>Price:</strong> $${test.price}</p>
+                <p class="mb-1"><strong>Category:</strong> ${test.category}</p>
+                <p class="mb-1"><strong>Turnaround:</strong> ${test.turnaroundTime}</p>
+                <p class="mb-0"><strong>Description:</strong> ${test.description ? test.description.substring(0, 100) + '...' : 'No description available'}</p>
+            `;
+            testInfoDiv.html(infoHTML).show();
+        } else {
+            testInfoDiv.hide();
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title><%= pageTitle %> - LonelyPro</title>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/slick-theme.css">
+    <link rel="stylesheet" href="/assets/css/odometer.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+
+    <style>
+        .dashboard-card {
+            text-align: center;
+            padding: 30px 15px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .dashboard-card i {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        .dashboard-card h4 {
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+        .card-add-test { background-color: #f7f7f7; color: #007bff; border-left: 5px solid #007bff; }
+        .card-manage-test { background-color: #f7f7f7; color: #28a745; border-left: 5px solid #28a745; }
+        .card-view-test { background-color: #f7f7f7; color: #ffc107; border-left: 5px solid #ffc107; }
+        .card-view-requests { background-color: #f7f7f7; color: #dc3545; border-left: 5px solid #dc3545; }
+        
+        .admin-welcome-section {
+            padding: 60px 0;
+        }
+        
+        .system-overview .dashboard-card {
+            padding: 25px 15px;
+        }
+        
+        .system-overview .dashboard-card h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        
+        .system-overview .dashboard-card h5 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .admin-menu-active {
+            color: #ff5e14 !important;
+            font-weight: 600;
+        }
+        
+        .quick-stats {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .quick-stats h5 {
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .recent-activity {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .activity-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-type {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .activity-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ==========Preloader Overlay Starts Here========== -->
+    
+    <div class="scrollToTop"><i class="fas fa-angle-up"></i></div>
+    <div class="overlay"></div>
+    <div class="overlayTwo"></div>
+    <!-- ==========Preloader Overlay Ends Here========== -->
+
+    <!-- ==========Header Section Starts Here========== -->
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-area">
+                    <ul class="left">
+                        <li>
+                            <i class="far fa-clock"></i> Always Live
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-phone-alt"></i>+234 701 403 2350</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i> Abuja FCT
+                        </li>
+                    </ul>
+                    <ul class="social-icons">
+                        <li>
+                            <a href="#"><i class="fab fa-facebook-messenger"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-vimeo-v"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-skype"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-wifi"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/assets/images/logo/logo.png" alt="logo" style="width: 200px;">
+                        </a>
+                    </div>
+                    <div class="menu-area">
+                        <ul class="menu">
+                            <li><a href="/admin/dashboard" class="admin-menu-active">Admin Dashboard</a></li>
+                            <li><a href="/admin/add-test">Add Test</a></li>
+                            <li><a href="/admin/manage-tests">Manage Tests</a></li>
+                            <li><a href="/admin/view-requests">Requests</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                        <div class="search-button">
+                            <a href="#">
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </div>
+                        <div class="cart-button">
+                            <a href="#">
+                                <span class="cart-amount">05</span>
+                                <i class="fas fa-shopping-basket"></i>
+                            </a>
+                        </div>
+                        <div class="header-bar d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="ellepsis-bar d-lg-none">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ==========Header Section Ends Here========== -->
+
+    <!-- ===========Header Search=========== -->
+    <div class="header-form">
+        <div class="bg-lay">
+            <div class="cross">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <form class="form-container">
+            <input type="text" placeholder="Input Your Search" name="name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <!-- ===========Header Search=========== -->
+
+    <!-- ===========Header Cart=========== -->
+    <div class="cart-sidebar-area">
+        <div class="top-content">
+            <a href="/" class="logo">
+                <img src="/assets/images/logo/logo.png" alt="logo">
+            </a>
+            <span class="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="bottom-content">
+            <div class="cart-products">
+                <h4 class="title">Shopping cart</h4>
+                <div class="single-product-item">
+                    <div class="thumb">
+                        <img src="/assets/images/shop/01.png" alt="shop">
+                    </div>
+                    <div class="content">
+                        <h4 class="title">Color Pencil</h4>
+                        <div class="price"><span class="pprice">$80.00</span> <del class="dprice">$120.00</del></div>
+                        <a href="#" class="remove-cart">Remove</a>
+                    </div>
+                </div>
+                <!-- More cart items would go here -->
+                <div class="btn-wrapper text-center">
+                    <a href="#" class="custom-button"><span>Checkout</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===========Header Cart=========== -->
+
+    <!-- ==========Banner Section Starts Here========== -->
+    <section class="page-header bg_img" data-background="/assets/images/banner/page-header.jpg">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="title">Admin Dashboard</h1>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        Admin
+                    </li>
+                    <li>
+                        Dashboard
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner Section Ends Here========== -->
+
+    <!-- ==========Admin Dashboard Section Starts Here========== -->
+    <section class="events-single-section admin-welcome-section padding-top padding-bottom">
+        <div class="container">
+            <div class="row mb--50 justify-content-center">
+                <div class="col-12 mb-50">
+                    <h2 class="text-center mb-4">Welcome <%= data.adminName || 'Admin' %>!</h2>
+                    <p class="text-center text-muted">Manage your system efficiently with the tools below</p>
+                </div>
+
+                <!-- Quick Access Cards -->
+                <div class="col-lg-3 col-md-6 col-sm-10">
+                    <a href="/admin/add-test" class="dashboard-card card-add-test">
+                        <i class="fas fa-plus-circle"></i>
+                        <h4>Add New Test</h4>
+                        <p class="mt-2 mb-0">Create a new test or quiz.</p>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-10">
+                    <a href="/admin/manage-tests" class="dashboard-card card-manage-test">
+                        <i class="fas fa-edit"></i>
+                        <h4>Manage Tests</h4>
+                        <p class="mt-2 mb-0">Edit or delete existing tests.</p>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-10">
+                    <a href="/admin/view-tests" class="dashboard-card card-view-test">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h4>View Tests</h4>
+                        <p class="mt-2 mb-0">Review all available tests.</p>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-10">
+                    <a href="/admin/view-requests" class="dashboard-card card-view-requests">
+                        <i class="fas fa-inbox"></i>
+                        <h4>View Requests</h4>
+                        <p class="mt-2 mb-0">Check user submissions and requests.</p>
+                    </a>
+                </div>
+            </div>
+            
+            <hr class="my-5">
+
+           <!-- System Overview -->
+<div class="row system-overview">
+    <div class="col-12">
+        <h3 class="mb-4">Lab Overview</h3>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="dashboard-card" style="background-color: #e0f7fa; color: #00bcd4; border-left: 5px solid #00bcd4;">
+            <i class="fas fa-vial"></i>
+            <h5>Total Tests</h5>
+            <h2 class="mb-0"><%= totalTests || 42 %></h2>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="dashboard-card" style="background-color: #e8f5e9; color: #4caf50; border-left: 5px solid #4caf50;">
+            <i class="fas fa-user-injured"></i>
+            <h5>Total Patients</h5>
+            <h2 class="mb-0"><%= data.totalPatients || 150 %></h2>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="dashboard-card" style="background-color: #fff3e0; color: #ff9800; border-left: 5px solid #ff9800;">
+            <i class="fas fa-calendar-check"></i>
+            <h5>Active Appointments</h5>
+            <h2 class="mb-0"><%= data.activeAppointments || 75 %></h2>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="dashboard-card" style="background-color: #ffebee; color: #f44336; border-left: 5px solid #f44336;">
+            <i class="fas fa-file-medical"></i>
+            <h5>Pending Results</h5>
+            <h2 class="mb-0"><%= data.pendingResults || 25 %></h2>
+        </div>
+    </div>
+</div>
+
+<!-- Test Categories Overview -->
+<div class="row mt-5">
+    <div class="col-12">
+        <h4 class="mb-4">Tests by Category</h4>
+    </div>
+    <% if (testCategories && testCategories.length > 0) { %>
+        <% testCategories.forEach(category => { %>
+            <div class="col-md-3 col-sm-6">
+                <div class="dashboard-card" style="background-color: #f8f9fa; color: #333; border-left: 5px solid #6c757d;">
+                    <i class="fas fa-folder"></i>
+                    <h5><%= category._id.toUpperCase() %></h5>
+                    <h2 class="mb-0"><%= category.count %></h2>
+                </div>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <div class="col-12">
+            <p class="text-muted">No test categories found.</p>
+        </div>
+    <% } %>
+</div>
+
+            <!-- Dashboard Content -->
+            <div class="row mt-5">
+                <div class="col-lg-8 mb-50">
+                    <div class="recent-activity">
+                        <h5 class="mb-4">Recent Activity</h5>
+                        <% if (data.recentActivity && data.recentActivity.length > 0) { %>
+                            <% data.recentActivity.forEach(activity => { %>
+                                <div class="activity-item">
+                                    <div class="activity-type"><%= activity.type %></div>
+                                    <div class="activity-desc"><%= activity.description %></div>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <p class="text-muted">No recent activity to display.</p>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-8 mb-50">
+                    <aside>
+                        <div class="widget widget-feature">
+                            <div class="widget-header">
+                                <h5 class="title">Quick Stats</h5>
+                            </div>
+                            <div class="widget-body">
+                                <ul>
+                                    <li>
+                                        <div class="ques cl-i-one"><i class="fas fa-calendar"></i>Last Login</div>
+                                        <div class="ans">Today, 10:30 AM</div>
+                                    </li>
+                                    <li>
+                                        <div class="ques cl-i-two"><i class="fas fa-chart-line"></i>System Uptime</div>
+                                        <div class="ans">99.8%</div>
+                                    </li>
+                                    <li>
+                                        <div class="ques cl-i-three"><i class="fas fa-database"></i>Database Size</div>
+                                        <div class="ans">2.4 GB</div>
+                                    </li>
+                                    <li>
+                                        <div class="ques cl-i-four"><i class="fas fa-shield-alt"></i>Security Level</div>
+                                        <div class="ans">High</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="widget widget-post mt-4">
+                            <div class="widget-header">
+                                <h5 class="title">Quick Actions</h5>
+                            </div>
+                            <div class="widget-body">
+                                <ul>
+                                    <li>
+                                        <a href="/admin/add-test" class="d-flex align-items-center p-2">
+                                            <i class="fas fa-plus-circle mr-3 text-primary"></i>
+                                            <span>Add New Test</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/view-requests" class="d-flex align-items-center p-2">
+                                            <i class="fas fa-inbox mr-3 text-success"></i>
+                                            <span>Check Requests</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="d-flex align-items-center p-2">
+                                            <i class="fas fa-cog mr-3 text-warning"></i>
+                                            <span>System Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="d-flex align-items-center p-2">
+                                            <i class="fas fa-file-export mr-3 text-info"></i>
+                                            <span>Export Data</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Admin Dashboard Section Ends Here========== -->
+
+    <!-- ==========Footer Section Starts Here========== -->
+    <footer>
+        <div class="footer-top">
+            <div class="ft-top">
+                <div class="container">
+                    <div class="row no-gutters justify-content-center">
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/01.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Phone Number : +800-123-4567 6587</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/02.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Email : admin@lonelypro.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/03.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Address : Beverley, New York 224 US</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ft-bottom">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-about">
+                                        <h5 class="title text-uppercase">About LONELY PRO</h5>
+                                        <p>
+                                            LonelyPro is a comprehensive platform dedicated to providing 
+                                            mental health support and resources through innovative 
+                                            testing and assessment tools.
+                                        </p>
+                                        <div class="ftb-map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.227736756104!2d90.38698295091588!3d23.73925698451917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b85c740f17d1%3A0xdd3daab8c90eb11f!2sCodexCoder!5e0!3m2!1sen!2sbd!4v1633410430100!5m2!1sen!2sbd" allowfullscreen=""></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-blog">
+                                        <h5 class="title text-uppercase">System Updates</h5>
+                                        <ul class="footer-blog">
+                                            <li>
+                                                <div class="content">
+                                                    <a href="#">New Testing Module Added</a>
+                                                    <span>November 15, 2023</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="content">
+                                                    <a href="#">Security Enhancement Update</a>
+                                                    <span>November 10, 2023</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="content">
+                                                    <a href="#">User Interface Improvements</a>
+                                                    <span>November 05, 2023</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 pl-xl-4">
+                                    <div class="footer-widget widgt-form">
+                                        <h5 class="title text-uppercase">Admin Newsletter</h5>
+                                        <p>Subscribe to receive system updates and important announcements.</p>
+                                        <form class="footer-form">
+                                            <input type="email" placeholder="Enter your email" name="email">
+                                            <button type="submit">
+                                                <span>Subscribe <i class="far fa-paper-plane ml-2"></i></span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="text-center">
+                    <p class="mb-0">&copy; 2023 <a href="/">Lonely Pro</a> - Admin Dashboard v1.0</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ==========Footer Section Ends Here========== -->
+    
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="/assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/magnific-popup.min.js"></script>
+    <script src="/assets/js/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+    <script src="/assets/js/waypoints.js"></script>
+    <script src="/assets/js/odometer.min.js"></script>
+    <script src="/assets/js/viewport.jquery.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    
+    <script>
+        // Add active class to current menu item
+        $(document).ready(function() {
+            const currentPath = window.location.pathname;
+            $('.menu a').each(function() {
+                if ($(this).attr('href') === currentPath) {
+                    $(this).addClass('admin-menu-active');
+                }
+            });
+            
+            // Dashboard card animation
+            $('.dashboard-card').hover(
+                function() {
+                    $(this).css('transform', 'translateY(-5px)');
+                },
+                function() {
+                    $(this).css('transform', 'translateY(0)');
+                }
+            );
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WhiteCoat – Privacy-First Anonymous Lab Testing</title>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/slick-theme.css">
+    <link rel="stylesheet" href="/assets/css/odometer.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+</head>
+<body>
+
+    <div class="overlayer">
+        <div class="loader">
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <div class="scrollToTop"><i class="fas fa-angle-up"></i></div>
+    <div class="overlay"></div>
+    <div class="overlayTwo"></div>
+
+    <header class="header-3">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-xl-3 col-12">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-center">
+                        <div class="header-bar d-lg-none">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="logo">
+                            <a href="/"><img src="/assets/images/logo/logo.png" alt="WhiteCoat Logo"></a>
+                        </div>
+                        <div class="ellepsis-bar d-lg-none"><i class="fas fa-ellipsis-h"></i></div>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-12">
+                    <div class="header-top">
+                        <div class="header-top-area">
+                            <ul class="left">
+                                <li><i class="fas fa-shield-alt"></i> 100% Anonymous Testing</li>
+                                <li><i class="fas fa-map-marker-alt"></i> Nationwide Service</li>
+                            </ul>
+                            <ul class="social-icons">
+                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="header-bottom">
+                        <div class="header-wrapper">
+                            <div class="menu-area justify-content-between w-100">
+                                <ul class="menu">
+                                    <li><a href="/">Home</a></li>
+                                    
+                                </ul>
+                                <div class="d-none d-lg-block">
+                                    <% if (!user) { %>
+                                        <a href="/auth/login" class="custom-button"><span>Sign In</span></a>
+                                        <a href="/auth/register" class="custom-button theme-two ml-3"><span>Get Started</span></a>
+                                    <% } else { %>
+                                        <a href="/<%= user.role %>/dashboard" class="custom-button"><span>Dashboard</span></a>
+                                        <a href="/auth/logout" class="custom-button transparent ml-3"><span>Logout</span></a>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <% if (success) { %>
+        <div class="alert alert-success text-center py-3 mb-0"><%= success %></div>
+    <% } %>
+    <% if (error) { %>
+        <div class="alert alert-danger text-center py-3 mb-0"><%= error %></div>
+    <% } %>
+
+    <section class="banner-section style-3 oh" style="margin-top: -10px; padding-top: 100px; padding-bottom: 10px;">
+        <div class="banner-shape d-none d-xl-block">
+            <div class="bs-item" data-value="-2">
+                <img src="assets/images/banner/shape/01.png" alt="banner-shape">
+            </div>
+            <div class="bs-item" data-value="-4">
+                <img src="assets/images/banner/shape/02.png" alt="banner-shape">
+            </div>
+            <div class="bs-item" data-value="-6">
+                <img src="assets/images/banner/shape/03.png" alt="banner-shape">
+            </div>
+            
+        </div>
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <div class="banner-content style-2">
+                    <h3 class="cate text-uppercase">Privacy-First Healthcare</h3>
+                    <h1 class="title">
+                        <span class="theme-two">Anonymous</span> Lab Testing<br>
+                        <span class="theme-two">At Home.</span>
+                    </h1>
+                    <p class="lead">
+                        Certified phlebotomists come to you. Accredited labs process your tests.<br>
+                        Your identity and results are **permanently separated** — by design.
+                    </p>
+
+                    <% if (!user) { %>
+                        <a href="/auth/register" class="custom-button"><span>Get Started <i class="fas fa-shield-alt ml-2"></i></span></a>
+                    <% } else if (user.role === 'patient') { %>
+                        <a href="/patient/tests" class="custom-button"><span>Order Tests <i class="fas fa-vial ml-2"></i></span></a>
+                    <% } else { %>
+                        <a href="/<%= user.role %>/dashboard" class="custom-button"><span>Go to Dashboard</span></a>
+                    <% } %>
+                </div>
+                <div class="banner-thumb bs-item d-none d-sm-block" data-value="12" style="padding-top: 0px;">
+                    <img src="assets/images/banner/02.png" alt="banner-thumb">
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <div class="about-section padding-top padding-bottom pos-rel" style="padding-bottom: 10px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-12 mb-5 mb-lg-0">
+                    <div class="about-content-part">
+                        <div class="acp-content">
+                            <h6 class="cate">About Us</h6>
+                            <h3 class="title text-uppercase">We Bring Accurate and Timely Lab Testing to Wherever You Are</h3>
+                            <p>We bring accurate and timely lab testing to wherever you are – home, office or community – powered by digital platforms and smart logistics.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="about-content-part">
+                        <div class="acp-content">
+                            <h6 class="cate">Our Mission & Vision</h6>
+                            <div class="mb-4">
+                                <h4 class="title mb-2 text-uppercase">Vision:</h4>
+                                <p>To become the **digital diagnostic backbone** driving preventive and better health outcomes in Africa.</p>
+                            </div>
+                            <div>
+                                <h4 class="title mb-2 text-uppercase">Mission:</h4>
+                                <p>To transform access to diagnostics by leveraging **technology, mobility, and patient-centred care**, making lab testing simple, reliable, and accessible to everyone, while enabling early detection and improved outcomes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    ---
+
+    <div class="feature-section style-3 padding-top padding-bottom" style="padding-bottom: 20px;">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    <h6 class="cate">Why WhiteCoat?</h6>
+                    <h3 class="title text-uppercase">Healthcare That Respects Your Privacy</h3>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-4 col-md-6">
+                    <div class="feature-item style-2 text-center">
+                        <div class="feature-inner">
+                            <div class="feture-icon mb-4">
+                                <img src="/assets/images/feature/shield.png" alt="Privacy">
+                            </div>
+                            <h4 class="title">Complete Anonymity</h4>
+                            <p>Your name is never linked to your results — not even we can reconnect them.</p>
+                            <a href="/privacy" class="text-btn">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="feature-item style-2 text-center">
+                        <div class="feature-inner">
+                            <div class="feture-icon mb-4">
+                                <img src="/assets/images/feature/home.png" alt="At Home" style="width: 70%;">
+                            </div>
+                            <h4 class="title">At-Home Collection</h4>
+                            <p>Licensed phlebotomists visit you at your chosen time and location.</p>
+                            <a href="/services/how-it-works" class="text-btn">Schedule Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="feature-item style-2 text-center">
+                        <div class="feature-inner">
+                            <div class="feture-icon mb-4">
+                                <img src="/assets/images/feature/reward.png" alt="Earn">
+                            </div>
+                            <h4 class="title">Earn Rewards</h4>
+                            <p>Refer friends and earn credits — you decide who gets the discount.</p>
+                            <% if (user && user.role === 'patient') { %>
+                                <a href="/affiliate/dashboard" class="text-btn">Join Program</a>
+                            <% } else { %>
+                                <a href="/affiliate/program" class="text-btn">Learn More</a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="urgent-campaign-section padding-top padding-bottom bg_img" data-background="/assets/images/bg/tests-bg.jpg">
+        <div class="container">
+            <div class="section-header text-center text-white">
+                <span class="cate">Most Requested Tests</span>
+                <h3 class="title text-uppercase">Fast, Accurate, Private Results</h3>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <% if (tests && tests.length > 0) { %>
+                    <% tests.slice(0, 3).forEach(function(test) { %>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="causes-item">
+                                <div class="causes-inner">
+                                    
+                                    <div class="causes-content bg-white p-4">
+                                        <h5><%= test.name %></h5>
+                                        <p><%= test.description %></p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="h4 mb-0 text-primary">$<%= test.price.toFixed(2) %></span>
+                                            <a href="/services/tests/<%= test.slug %>" class="custom-button small"><span>Order</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="col-12 text-center text-white">
+                        <p>No popular tests are currently available.</p>
+                    </div>
+                <% } %>
+                </div>
+            <div class="text-center" style="padding-top: 20px;">
+                <a href="/services/tests" class="custom-button"><span>Browse All Tests <i class="fas fa-vial ml-2"></i></span></a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <div class="container">
+                <div class="row justify-content-center text-center text-white">
+                    <div class="col-lg-8">
+                        <h2 class="text-uppercase" style="padding-top: 50px;">Your Privacy. Our Priority.</h2>
+                        <p class="lead">WhiteCoat was built for people who value medical privacy above everything else.</p>
+                        <% if (!user) { %>
+                            <a href="/auth/register" class="custom-button mt-4"><span>Join WhiteCoat Today</span></a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="text-center">
+                    <p class="mb-0">&copy; 2025 WhiteCoat – Anonymous Healthcare Testing. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+    <script src="/assets/js/odometer.min.js"></script>
+    <script src="/assets/js/viewport.jquery.js"></script>
+    <script src="/assets/js/nice-select.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
+    <script src="/assets/js/magnific-popup.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+</body>
+</html>

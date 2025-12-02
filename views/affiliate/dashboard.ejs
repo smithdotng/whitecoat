@@ -1,0 +1,113 @@
+<%- include('../layouts/main') %>
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Affiliate Dashboard</h1>
+            <p class="lead">Earn rewards by referring others to WhiteCoat</p>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h3 class="text-primary">$0</h3>
+                    <p class="text-muted mb-0">Total Earnings</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h3 class="text-success">0</h3>
+                    <p class="text-muted mb-0">Total Referrals</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h3 class="text-info">$0</h3>
+                    <p class="text-muted mb-0">Available Balance</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h3 class="text-warning">0%</h3>
+                    <p class="text-muted mb-0">Conversion Rate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Your Referral Code</h5>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="referralCode" value="WHITECOAT-<%= user._id ? user._id.slice(-8).toUpperCase() : 'TEST123' %>" readonly>
+                        <button class="btn btn-outline-secondary" type="button" onclick="copyCode()">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <p class="text-muted small">Share this code with friends and earn 5% of their first order</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Discount Allocation</h5>
+                    <p>Set how the 15% discount is split between you and your referrals:</p>
+                    <div class="mb-3">
+                        <label class="form-label">Customer Discount: <span id="customerPercent">10</span>%</label>
+                        <input type="range" class="form-range" min="0" max="15" value="10" oninput="updateSplit(this.value)">
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        You earn: <strong id="affiliatePercent">5</strong>% on each successful referral
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">How It Works</h5>
+            <ol>
+                <li>Share your referral code with friends and family</li>
+                <li>They sign up using your code and get a discount on their first order</li>
+                <li>When they complete their first order, you earn a commission</li>
+                <li>Withdraw your earnings when you reach $25</li>
+            </ol>
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Minimum payout amount: $25
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateSplit(customerPercent) {
+    const affiliatePercent = 15 - customerPercent;
+    document.getElementById('customerPercent').textContent = customerPercent;
+    document.getElementById('affiliatePercent').textContent = affiliatePercent;
+}
+
+function copyCode() {
+    const codeInput = document.getElementById('referralCode');
+    codeInput.select();
+    document.execCommand('copy');
+    alert('Referral code copied to clipboard!');
+}
+</script>

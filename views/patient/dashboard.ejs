@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard – WhiteCoat</title>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    
+    <style>
+        .badge.bg-success { background-color: #28a745 !important; color: white; }
+        .badge.bg-warning { background-color: #ffc107 !important; color: #343a40; }
+        .badge.bg-danger { background-color: #dc3545 !important; color: white; }
+        .badge.bg-info { background-color: #17a2b8 !important; color: white; }
+        .badge { padding: 0.5em 0.75em; }
+    </style>
+</head>
+<body>
+
+    <div class="overlayer"><div class="loader"><div class="loader-inner"></div></div></div>
+    <div class="scrollToTop"><i class="fas fa-angle-up"></i></div>
+    <div class="overlay"></div>
+
+    <%- include('../partials/header') %>
+
+    <% if (success) { %>
+        <div class="alert alert-success text-center py-3 mb-0"><%= success %></div>
+    <% } %>
+    <% if (error) { %>
+        <div class="alert alert-danger text-center py-3 mb-0"><%= error %></div>
+    <% } %>
+    
+    <section class="page-header bg_img" data-background="/assets/images/banner/page-header.jpg">
+        <div class="container">
+            <div class="page-header-content text-center">
+                <h1 class="title text-white">Welcome Back, <%= patient.firstName %></h1> 
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li>Dashboard</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="padding-top padding-bottom">
+        <div class="container">
+            <div class="row justify-content-center g-4">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="lab-item style-2 text-center">
+                        <div class="lab-thumb">
+                            <i class="flaticon-shopping-cart text-primary"></i>
+                        </div>
+                        <div class="lab-content">
+                            <h3 class="odometer" data-odometer-final="<%= totalOrders %>"><%= totalOrders %></h3>
+                            <p>Total Orders</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="lab-item style-2 text-center">
+                        <div class="lab-thumb">
+                            <i class="flaticon-waiting text-warning"></i>
+                        </div>
+                        <div class="lab-content">
+                            <h3 class="odometer" data-odometer-final="<%= pendingOrders %>"><%= pendingOrders %></h3>
+                            <p>Pending Tests</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="lab-item style-2 text-center">
+                        <div class="lab-thumb">
+                            <i class="flaticon-checklist text-success"></i>
+                        </div>
+                        <div class="lab-content">
+                            <h3 class="odometer" data-odometer-final="<%= resultsReady %>"><%= resultsReady %></h3>
+                            <p>Results Ready</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="lab-item style-2 text-center">
+                        <div class="lab-thumb">
+                            <i class="flaticon-money-bag text-info"></i>
+                        </div>
+                        <div class="lab-content">
+                            <h3>$<span class="odometer" data-odometer-final="<%= affiliateEarnings %>"><%= affiliateEarnings.toFixed(2) %></span></h3>
+                            <p>Affiliate Earnings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="padding-bottom">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-5">
+                    <div class="account-wrapper">
+                        <h4 class="title mb-4">Quick Actions</h4>
+                        <div class="d-grid gap-3">
+                            <a href="/patient/tests" class="custom-button">
+                                <span><i class="fas fa-vial me-3"></i> Order New Test</span>
+                            </a>
+                            <a href="/affiliate/dashboard" class="custom-button theme-two">
+                                <span><i class="fas fa-handshake me-3"></i> Affiliate Program</span>
+                            </a>
+                            <a href="/patient/results" class="custom-button theme-three">
+                                <span><i class="fas fa-file-medical me-3"></i> View All Results</span>
+                            </a>
+                            <a href="/patient/profile" class="custom-button theme-four">
+                                <span><i class="fas fa-user-cog me-3"></i> Update Profile</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="account-wrapper">
+                        <h4 class="title mb-4">Recent Orders</h4>
+                        <% if (recentOrders && recentOrders.length > 0) { %>
+                            <div class="table-responsive">
+                                <table class="table table-style-two">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Order ID</th>
+                                            <th>Test</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% recentOrders.forEach(order => { %>
+                                            <tr>
+                                                <td><%= new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
+                                                <td><strong>#<%= order._id.toString().slice(-8) %></strong></td>
+                                                <td><%= order.tests.map(t => t.testId?.name || 'Unknown Test').join(', ') %></td>
+                                                <td>
+                                                    <span class="badge bg-<%= 
+                                                         order.status === 'completed' ? 'success' : 
+                                                         order.status === 'cancelled' ? 'danger' : 
+                                                         ['pending','scheduled','sample_collected','at_lab','processing'].includes(order.status) ? 'warning' : 'info'
+                                                     %>">
+                                                         <%= order.status.replace(/_/g, ' ').toUpperCase() %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="/patient/orders/<%= order._id %>" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center mt-4">
+                                <a href="/patient/orders" class="custom-button"><span>View All Orders</span></a>
+                            </div>
+                        <% } else { %>
+                            <div class="text-center py-5">
+                                <i class="flaticon-medical-report display-1 text-muted"></i>
+                                <p class="mt-3 text-muted">No orders yet. Start your health journey today!</p>
+                                <a href="/patient/tests" class="custom-button mt-3"><span>Order Your First Test</span></a>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('../partials/footer') %>
+
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/odometer.min.js"></script>
+    <script src="/assets/js/viewport.jquery.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>
+        // Animate counters when in viewport
+        // Ensure odometer runs correctly with a timeout
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.odometer').each(function() {
+                    $(this).html($(this).data('odometer-final') || 0);
+                });
+            }, 500);
+        });
+        
+        // You can keep the scroll logic for a more controlled animation effect if desired
+        function isScrolledIntoView(elem) {
+            const docViewTop = $(window).scrollTop();
+            const docViewBottom = docViewTop + $(window).height();
+            const elemTop = $(elem).offset().top;
+            const elemBottom = elemTop + $(elem).height();
+            return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        }
+
+        $(window).on('scroll', function() {
+            $('.odometer').each(function() {
+                if (isScrolledIntoView(this)) {
+                    const final = $(this).data('odometer-final') || 0;
+                    $(this).html(final);
+                }
+            });
+        });
+        
+        // Re-initialize WOW if needed
+        if (typeof WOW !== 'undefined') {
+             new WOW().init();
+        }
+    </script>
+</body>
+</html>

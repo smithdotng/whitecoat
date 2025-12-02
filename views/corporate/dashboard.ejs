@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Dashboard – WhiteCoat</title>
+
+    <!-- LonelyPro Premium CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+
+    <style>
+        .company-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,212,255,.15);
+        }
+        .stat-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #333;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div class="overlayer"><div class="loader"><div class="loader-inner"></div></div></div>
+    <div class="scrollToTop"><i class="fas fa-angle-up"></i></div>
+    <div class="overlay"></div>
+
+    <!-- Header -->
+    <%- include('../partials/header') %>
+
+    <!-- Page Header -->
+    <section class="page-header bg_img" data-background="/assets/images/banner/page-header.jpg">
+        <div class="container">
+            <div class="page-header-content text-center">
+                <h1 class="title text-white">Corporate Wellness Portal</h1>
+                <p class="text-white opacity-9">Anonymous employee health testing — at enterprise scale</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome + Company Name -->
+    <section class="padding-top">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="company-name"><%= user.companyName || 'Your Organization' %></h2>
+                <p class="lead text-muted">Managing workforce health with complete privacy</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon text-primary">
+                        <i class="flaticon-team"></i>
+                    </div>
+                    <div class="stat-number odometer" data-odometer-final="<%= stats.totalEmployees || 0 %>">0</div>
+                    <div class="stat-label">Employees Enrolled</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon text-success">
+                        <i class="flaticon-test-tube"></i>
+                    </div>
+                    <div class="stat-number odometer" data-odometer-final="<%= stats.totalTests || 0 %>">0</div>
+                    <div class="stat-label">Tests Completed</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon text-warning">
+                        <i class="flaticon-waiting"></i>
+                    </div>
+                    <div class="stat-number odometer" data-odometer-final="<%= stats.pendingTests || 0 %>">0</div>
+                    <div class="stat-label">Tests In Progress</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon text-info">
+                        <i class="flaticon-shield"></i>
+                    </div>
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Anonymity Guaranteed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions + Recent Activity -->
+    <section class="padding-bottom">
+        <div class="container">
+            <div class="row g-5">
+
+                <!-- Quick Actions -->
+                <div class="col-lg-5">
+                    <div class="account-wrapper p-5">
+                        <h3 class="title text-center mb-4">Corporate Tools</h3>
+                        <div class="d-grid gap-4">
+                            <a href="/corporate/bulk-order" class="custom-button large">
+                                <span>Launch Bulk Testing Campaign</span>
+                            </a>
+                            <a href="/corporate/employees" class="custom-button theme-two">
+                                <span>Manage Employee List</span>
+                            </a>
+                            <a href="/corporate/reports" class="custom-button theme-three">
+                                <span>View Analytics & Reports</span>
+                            </a>
+                            <a href="/patient/tests" class="custom-button theme-four">
+                                <span>Order Single Test</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="col-lg-7">
+                    <div class="account-wrapper p-5">
+                        <h3 class="title mb-4">Recent Testing Activity</h3>
+
+                        <% if (recentOrders && recentOrders.length > 0) { %>
+                            <div class="table-responsive">
+                                <table class="table table-style-two">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Campaign / Batch</th>
+                                            <th>Tests</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% recentOrders.forEach(order => { %>
+                                            <tr>
+                                                <td><%= new Date(order.createdAt).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %></td>
+                                                <td><strong>Batch #<%= order._id.toString().slice(-6) %></strong></td>
+                                                <td><%= order.tests.length %> test<%= order.tests.length > 1 ? 's' : '' %></td>
+                                                <td>
+                                                    <span class="badge bg-<%= 
+                                                        order.status === 'completed' ? 'success' :
+                                                        ['pending','scheduled','sample_collected'].includes(order.status) ? 'warning' : 'info'
+                                                    %>">
+                                                        <%= order.status.replace('_', ' ').toUpperCase() %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="/patient/orders/<%= order._id %>" class="btn btn-sm btn-outline-primary">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-end">
+                                <a href="/patient/orders" class="btn btn-link">View all orders →</a>
+                            </div>
+                        <% } else { %>
+                            <div class="text-center py-5">
+                                <i class="flaticon-medical-kit display-1 text-muted mb-4"></i>
+                                <h5>No testing campaigns yet</h5>
+                                <p class="text-muted mb-4">Start protecting your team today with anonymous testing</p>
+                                <a href="/corporate/bulk-order" class="custom-button">
+                                    <span>Launch First Campaign</span>
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+    <!-- Scripts -->
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/odometer.min.js"></script>
+    <script src="/assets/js/viewport.jquery.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>
+        // Animate numbers on scroll
+        const odometers = document.querySelectorAll('.odometer');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const final = target.getAttribute('data-odometer-final');
+                    let count = 0;
+                    const timer = setInterval(() => {
+                        if (count >= final) clearInterval(timer);
+                        target.innerHTML = count++;
+                    }, 40);
+                    observer.unobserve(target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        odometers.forEach(odo => observer.observe(odo));
+
+        new WOW().init();
+    </script>
+</body>
+</html>

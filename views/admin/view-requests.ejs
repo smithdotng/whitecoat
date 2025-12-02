@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title><%= pageTitle %> - LonelyPro</title>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/slick-theme.css">
+    <link rel="stylesheet" href="/assets/css/odometer.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+
+    <style>
+        .request-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .request-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .request-card.pending {
+            border-left-color: #ffc107;
+        }
+        
+        .request-card.approved {
+            border-left-color: #28a745;
+        }
+        
+        .request-card.rejected {
+            border-left-color: #dc3545;
+        }
+        
+        .request-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .request-info {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .request-info i {
+            width: 20px;
+            color: #007bff;
+        }
+        
+        .filter-tabs {
+            margin-bottom: 30px;
+        }
+        
+        .filter-tabs .nav-link {
+            color: #555;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px 8px 0 0;
+            margin-right: 5px;
+        }
+        
+        .filter-tabs .nav-link.active {
+            color: #fff;
+            background-color: #007bff;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .request-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .stats-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .stats-card.pending {
+            background: linear-gradient(135deg, #ffc107, #ff9800);
+        }
+        
+        .stats-card.approved {
+            background: linear-gradient(135deg, #28a745, #4caf50);
+        }
+        
+        .stats-card.rejected {
+            background: linear-gradient(135deg, #dc3545, #f44336);
+        }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stats-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ==========Preloader Overlay Starts Here========== -->
+    
+    <div class="scrollToTop"><i class="fas fa-angle-up"></i></div>
+    <div class="overlay"></div>
+    <div class="overlayTwo"></div>
+    <!-- ==========Preloader Overlay Ends Here========== -->
+
+    <!-- ==========Header Section Starts Here========== -->
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-area">
+                    <ul class="left">
+                        <li>
+                            <i class="far fa-clock"></i> Always Live
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-phone-alt"></i>+234 701 403 2350</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i> Abuja FCT
+                        </li>
+                    </ul>
+                    <ul class="social-icons">
+                        <li>
+                            <a href="#"><i class="fab fa-facebook-messenger"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-vimeo-v"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-skype"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-wifi"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/assets/images/logo/logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="menu-area">
+                        <ul class="menu">
+                            <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+                            <li><a href="/admin/add-test">Add Test</a></li>
+                            <li><a href="/admin/manage-tests">Manage Tests</a></li>
+                            <li><a href="/admin/view-tests">View Tests</a></li>
+                            <li><a href="/admin/view-requests" class="admin-menu-active">Requests</a></li>
+                            <li><a href="/admin/create-admin">Create Admin</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                        <div class="search-button">
+                            <a href="#">
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </div>
+                        <div class="header-bar d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="ellepsis-bar d-lg-none">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ==========Header Section Ends Here========== -->
+
+    <!-- ===========Header Search=========== -->
+    <div class="header-form">
+        <div class="bg-lay">
+            <div class="cross">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <form class="form-container">
+            <input type="text" placeholder="Input Your Search" name="name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <!-- ===========Header Search=========== -->
+
+    <!-- ===========Header Cart=========== -->
+    <div class="cart-sidebar-area">
+        <div class="top-content">
+            <a href="/" class="logo">
+                <img src="/assets/images/logo/logo.png" alt="logo">
+            </a>
+            <span class="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="bottom-content">
+            <div class="cart-products">
+                <h4 class="title">Shopping cart</h4>
+                <div class="single-product-item">
+                    <div class="thumb">
+                        <img src="/assets/images/shop/01.png" alt="shop">
+                    </div>
+                    <div class="content">
+                        <h4 class="title">Color Pencil</h4>
+                        <div class="price"><span class="pprice">$80.00</span> <del class="dprice">$120.00</del></div>
+                        <a href="#" class="remove-cart">Remove</a>
+                    </div>
+                </div>
+                <div class="btn-wrapper text-center">
+                    <a href="#" class="custom-button"><span>Checkout</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===========Header Cart=========== -->
+
+    <!-- ==========Banner Section Starts Here========== -->
+    <section class="page-header bg_img" data-background="/assets/images/banner/page-header.jpg">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="title">View Requests</h1>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/admin/dashboard">Admin</a>
+                    </li>
+                    <li>
+                        View Requests
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner Section Ends Here========== -->
+
+    <!-- ==========View Requests Section Starts Here========== -->
+    <section class="events-single-section padding-top padding-bottom">
+        <div class="container">
+            <!-- Statistics Cards -->
+            <div class="row mb-5">
+                <div class="col-md-4">
+                    <div class="stats-card pending">
+                        <div class="stats-number"><%= data.pendingRequests ? data.pendingRequests.length : 0 %></div>
+                        <div class="stats-label">Pending Requests</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card approved">
+                        <div class="stats-number"><%= data.approvedRequests ? data.approvedRequests.length : 0 %></div>
+                        <div class="stats-label">Approved</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card rejected">
+                        <div class="stats-number"><%= data.rejectedRequests ? data.rejectedRequests.length : 0 %></div>
+                        <div class="stats-label">Rejected</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filter Tabs -->
+            <ul class="nav nav-tabs filter-tabs" id="requestTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab">
+                        Pending <span class="badge badge-light ml-1"><%= data.pendingRequests ? data.pendingRequests.length : 0 %></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="approved-tab" data-toggle="tab" href="#approved" role="tab">
+                        Approved <span class="badge badge-light ml-1"><%= data.approvedRequests ? data.approvedRequests.length : 0 %></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="rejected-tab" data-toggle="tab" href="#rejected" role="tab">
+                        Rejected <span class="badge badge-light ml-1"><%= data.rejectedRequests ? data.rejectedRequests.length : 0 %></span>
+                    </a>
+                </li>
+                <li class="nav-item ml-auto">
+                    <div class="input-group" style="width: 300px;">
+                        <input type="text" class="form-control" placeholder="Search requests..." id="searchRequests">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            
+            <!-- Tab Content -->
+            <div class="tab-content" id="requestTabsContent">
+                <!-- Pending Requests Tab -->
+                <div class="tab-pane fade show active" id="pending" role="tabpanel">
+                    <% if (data.pendingRequests && data.pendingRequests.length > 0) { %>
+                        <% data.pendingRequests.forEach(request => { %>
+                        <div class="request-card pending">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5><%= request.user %></h5>
+                                    <div class="request-info">
+                                        <i class="fas fa-file-alt"></i> <strong>Type:</strong> <%= request.type %>
+                                    </div>
+                                    <div class="request-info">
+                                        <i class="far fa-calendar"></i> <strong>Submitted:</strong> <%= request.date %>
+                                    </div>
+                                    <div class="request-info">
+                                        <i class="fas fa-info-circle"></i> <strong>Status:</strong> 
+                                        <span class="request-status status-pending">Pending Review</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <form action="/admin/handle-request" method="POST" class="request-actions d-inline-block">
+                                        <input type="hidden" name="requestId" value="<%= request.id %>">
+                                        <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                        <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="viewRequestDetails(<%= request.id %>)">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h4>No Pending Requests</h4>
+                            <p>There are no pending requests at the moment.</p>
+                        </div>
+                    <% } %>
+                </div>
+                
+                <!-- Approved Requests Tab -->
+                <div class="tab-pane fade" id="approved" role="tabpanel">
+                    <% if (data.approvedRequests && data.approvedRequests.length > 0) { %>
+                        <% data.approvedRequests.forEach(request => { %>
+                        <div class="request-card approved">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5><%= request.user %></h5>
+                                    <div class="request-info">
+                                        <i class="fas fa-file-alt"></i> <strong>Type:</strong> <%= request.type %>
+                                    </div>
+                                    <div class="request-info">
+                                        <i class="far fa-calendar"></i> <strong>Submitted:</strong> <%= request.date %>
+                                    </div>
+                                    <div class="request-info">
+                                        <i class="fas fa-info-circle"></i> <strong>Status:</strong> 
+                                        <span class="request-status status-approved">Approved</span>
+                                    </div>
+                                    <div class="request-info">
+                                        <i class="far fa-check-circle"></i> <strong>Approved on:</strong> <%= request.date %>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="viewRequestDetails(<%= request.id %>)">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="reopenRequest(<%= request.id %>)">
+                                        <i class="fas fa-redo"></i> Reopen
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-check-circle"></i>
+                            <h4>No Approved Requests</h4>
+                            <p>There are no approved requests at the moment.</p>
+                        </div>
+                    <% } %>
+                </div>
+                
+                <!-- Rejected Requests Tab -->
+                <div class="tab-pane fade" id="rejected" role="tabpanel">
+                    <% if (data.rejectedRequests && data.rejectedRequests.length > 0) { %>
+                        <% data.rejectedRequests.forEach(request => { %>
+                        <div class="request-card rejected">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5><%= request.user %></h5>
+                                    <div class="request-info">
+                                        <i class="fas fa-file-alt"></i> <strong>Type:</strong> <%= request.type %>
+                                    </div>
+                                    <div class="request-info">
+                                        <i class="far fa-calendar"></i> <strong>Submitted:</strong> <%= request.date %>
+                                    </div>
+                                    <div class="request-info">
+                                        <i class="fas fa-info-circle"></i> <strong>Status:</strong> 
+                                        <span class="request-status status-rejected">Rejected</span>
+                                    </div>
+                                    <div class="request-info">
+                                        <i class="far fa-times-circle"></i> <strong>Rejected on:</strong> <%= request.date %>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="viewRequestDetails(<%= request.id %>)">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="reopenRequest(<%= request.id %>)">
+                                        <i class="fas fa-redo"></i> Reopen
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-times-circle"></i>
+                            <h4>No Rejected Requests</h4>
+                            <p>There are no rejected requests at the moment.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            
+            <!-- Bulk Actions -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Bulk Actions</h5>
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <select class="form-control" id="bulkAction">
+                                        <option value="">Select Action</option>
+                                        <option value="approve">Approve Selected</option>
+                                        <option value="reject">Reject Selected</option>
+                                        <option value="delete">Delete Selected</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectAll">
+                                        <label class="form-check-label" for="selectAll">
+                                            Select all pending requests
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <button type="button" class="btn btn-primary" onclick="performBulkAction()">
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========View Requests Section Ends Here========== -->
+
+    <!-- Request Details Modal -->
+    <div class="modal fade" id="requestDetailsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Request Details</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="requestDetailsContent">
+                    <!-- Details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div id="modalActions"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========Footer Section Starts Here========== -->
+    <footer>
+        <div class="footer-top">
+            <div class="ft-top">
+                <div class="container">
+                    <div class="row no-gutters justify-content-center">
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/01.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Phone Number : +800-123-4567 6587</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/02.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Email : admin@lonelypro.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/03.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Address : Beverley, New York 224 US</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ft-bottom">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-about">
+                                        <h5 class="title text-uppercase">About LONELY PRO</h5>
+                                        <p>
+                                            LonelyPro is a comprehensive platform dedicated to providing 
+                                            mental health support and resources through innovative 
+                                            testing and assessment tools.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-blog">
+                                        <h5 class="title text-uppercase">Recent Requests</h5>
+                                        <ul class="footer-blog">
+                                            <% if (data.pendingRequests && data.pendingRequests.length > 0) { %>
+                                                <% data.pendingRequests.slice(0, 2).forEach(request => { %>
+                                                <li>
+                                                    <div class="content">
+                                                        <a href="#"><%= request.user %> - <%= request.type %></a>
+                                                        <span><%= request.date %></span>
+                                                    </div>
+                                                </li>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <li>
+                                                    <div class="content">
+                                                        <a href="#">No recent requests</a>
+                                                        <span>Check back later</span>
+                                                    </div>
+                                                </li>
+                                            <% } %>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 pl-xl-4">
+                                    <div class="footer-widget widgt-form">
+                                        <h5 class="title text-uppercase">Request Notifications</h5>
+                                        <p>Get notified when new requests are submitted.</p>
+                                        <form class="footer-form">
+                                            <input type="email" placeholder="Enter your email" name="email">
+                                            <button type="submit">
+                                                <span>Subscribe <i class="far fa-paper-plane ml-2"></i></span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="text-center">
+                    <p class="mb-0">&copy; 2023 <a href="/">Lonely Pro</a> - Admin Dashboard v1.0</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ==========Footer Section Ends Here========== -->
+    
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="/assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/magnific-popup.min.js"></script>
+    <script src="/assets/js/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+    <script src="/assets/js/waypoints.js"></script>
+    <script src="/assets/js/odometer.min.js"></script>
+    <script src="/assets/js/viewport.jquery.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Initialize nice-select
+            $('.nice-select').niceSelect();
+            
+            // Search functionality
+            $('#searchRequests').on('keyup', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                const activeTab = $('.tab-pane.active');
+                
+                activeTab.find('.request-card').each(function() {
+                    const text = $(this).text().toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+            
+            // Select all checkbox
+            $('#selectAll').change(function() {
+                const isChecked = $(this).prop('checked');
+                $('#pending .request-card input[type="checkbox"]').prop('checked', isChecked);
+            });
+            
+            // Add active class to current menu item
+            const currentPath = window.location.pathname;
+            $('.menu a').each(function() {
+                if ($(this).attr('href') === currentPath) {
+                    $(this).addClass('admin-menu-active');
+                }
+            });
+        });
+        
+        function viewRequestDetails(requestId) {
+            // Mock data - in production, you would fetch this from server
+            const requestDetails = {
+                id: requestId,
+                user: 'John Smith',
+                email: 'john.smith@example.com',
+                type: 'Test Access Request',
+                date: '2023-11-15',
+                status: 'pending',
+                description: 'Requesting access to the Depression Assessment test for research purposes.',
+                additionalInfo: 'User is a psychology student conducting research on depression screening methods.',
+                contactMethod: 'Email',
+                priority: 'Normal'
+            };
+            
+            let detailsHTML = `
+                <div class="request-details">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <strong>Request ID:</strong> ${requestDetails.id}
+                            </div>
+                            <div class="detail-item">
+                                <strong>User:</strong> ${requestDetails.user}
+                            </div>
+                            <div class="detail-item">
+                                <strong>Email:</strong> ${requestDetails.email}
+                            </div>
+                            <div class="detail-item">
+                                <strong>Type:</strong> ${requestDetails.type}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <strong>Submitted:</strong> ${requestDetails.date}
+                            </div>
+                            <div class="detail-item">
+                                <strong>Status:</strong> 
+                                <span class="request-status ${requestDetails.status === 'pending' ? 'status-pending' : requestDetails.status === 'approved' ? 'status-approved' : 'status-rejected'}">
+                                    ${requestDetails.status.charAt(0).toUpperCase() + requestDetails.status.slice(1)}
+                                </span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Contact Method:</strong> ${requestDetails.contactMethod}
+                            </div>
+                            <div class="detail-item">
+                                <strong>Priority:</strong> ${requestDetails.priority}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Description:</h6>
+                            <p>${requestDetails.description}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h6>Additional Information:</h6>
+                            <p>${requestDetails.additionalInfo}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            let actionsHTML = '';
+            if (requestDetails.status === 'pending') {
+                actionsHTML = `
+                    <form action="/admin/handle-request" method="POST" class="d-inline">
+                        <input type="hidden" name="requestId" value="${requestDetails.id}">
+                        <button type="submit" name="action" value="approve" class="btn btn-success">
+                            <i class="fas fa-check"></i> Approve
+                        </button>
+                        <button type="submit" name="action" value="reject" class="btn btn-danger">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                    </form>
+                `;
+            }
+            
+            $('#requestDetailsContent').html(detailsHTML);
+            $('#modalActions').html(actionsHTML);
+            $('#requestDetailsModal').modal('show');
+        }
+        
+        function reopenRequest(requestId) {
+            if (confirm('Are you sure you want to reopen this request? It will be moved back to pending requests.')) {
+                // In production, make an AJAX call to update the request status
+                console.log(`Reopening request ${requestId}`);
+                // Reload the page to see changes
+                location.reload();
+            }
+        }
+        
+        function performBulkAction() {
+            const action = $('#bulkAction').val();
+            if (!action) {
+                alert('Please select an action.');
+                return;
+            }
+            
+            const selectedRequests = [];
+            $('#pending .request-card input[type="checkbox"]:checked').each(function() {
+                selectedRequests.push($(this).val());
+            });
+            
+            if (selectedRequests.length === 0) {
+                alert('Please select at least one request.');
+                return;
+            }
+            
+            if (confirm(`Are you sure you want to ${action} ${selectedRequests.length} request(s)?`)) {
+                // In production, make an AJAX call to perform bulk action
+                console.log(`Bulk ${action} for requests:`, selectedRequests);
+                
+                // Show loading state
+                $('.btn-primary').html('<i class="fas fa-spinner fa-spin"></i> Processing...').prop('disabled', true);
+                
+                // Simulate API call
+                setTimeout(() => {
+                    alert(`Successfully ${action}d ${selectedRequests.length} request(s)!`);
+                    location.reload();
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>

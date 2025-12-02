@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title><%= pageTitle %> - LonelyPro</title>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/slick-theme.css">
+    <link rel="stylesheet" href="/assets/css/odometer.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+
+    <style>
+        .form-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .form-section h4 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .permission-card {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .permission-card h6 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        
+        .required:after {
+            content: " *";
+            color: #dc3545;
+        }
+        
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 2px;
+        }
+        
+        .strength-weak { background-color: #dc3545; width: 25%; }
+        .strength-fair { background-color: #ffc107; width: 50%; }
+        .strength-good { background-color: #17a2b8; width: 75%; }
+        .strength-strong { background-color: #28a745; width: 100%; }
+        
+        .admin-role-card {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-role-card:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+        
+        .admin-role-card.selected {
+            border-color: #28a745;
+            background-color: #e8f5e9;
+        }
+        
+        .role-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ==========Preloader Overlay Starts Here========== -->
+    
+    <div class="scrollToTop"><i class="fas fa-angle-up"></i></div>
+    <div class="overlay"></div>
+    <div class="overlayTwo"></div>
+    <!-- ==========Preloader Overlay Ends Here========== -->
+
+    <!-- ==========Header Section Starts Here========== -->
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-area">
+                    <ul class="left">
+                        <li>
+                            <i class="far fa-clock"></i> Always Live
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-phone-alt"></i>+234 701 403 2350</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i> Abuja FCT
+                        </li>
+                    </ul>
+                    <ul class="social-icons">
+                        <li>
+                            <a href="#"><i class="fab fa-facebook-messenger"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-vimeo-v"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fab fa-skype"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-wifi"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/assets/images/logo/logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="menu-area">
+                        <ul class="menu">
+                            <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+                            <li><a href="/admin/add-test">Add Test</a></li>
+                            <li><a href="/admin/manage-tests">Manage Tests</a></li>
+                            <li><a href="/admin/view-tests">View Tests</a></li>
+                            <li><a href="/admin/view-requests">Requests</a></li>
+                            <li><a href="/admin/create-admin" class="admin-menu-active">Create Admin</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                        <div class="search-button">
+                            <a href="#">
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </div>
+                        <div class="header-bar d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="ellepsis-bar d-lg-none">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ==========Header Section Ends Here========== -->
+
+    <!-- ===========Header Search=========== -->
+    <div class="header-form">
+        <div class="bg-lay">
+            <div class="cross">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <form class="form-container">
+            <input type="text" placeholder="Input Your Search" name="name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <!-- ===========Header Search=========== -->
+
+    <!-- ===========Header Cart=========== -->
+    <div class="cart-sidebar-area">
+        <div class="top-content">
+            <a href="/" class="logo">
+                <img src="/assets/images/logo/logo.png" alt="logo">
+            </a>
+            <span class="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="bottom-content">
+            <div class="cart-products">
+                <h4 class="title">Shopping cart</h4>
+                <div class="single-product-item">
+                    <div class="thumb">
+                        <img src="/assets/images/shop/01.png" alt="shop">
+                    </div>
+                    <div class="content">
+                        <h4 class="title">Color Pencil</h4>
+                        <div class="price"><span class="pprice">$80.00</span> <del class="dprice">$120.00</del></div>
+                        <a href="#" class="remove-cart">Remove</a>
+                    </div>
+                </div>
+                <div class="btn-wrapper text-center">
+                    <a href="#" class="custom-button"><span>Checkout</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===========Header Cart=========== -->
+
+    <!-- ==========Banner Section Starts Here========== -->
+    <section class="page-header bg_img" data-background="/assets/images/banner/page-header.jpg">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="title">Create New Admin User</h1>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/admin/dashboard">Admin</a>
+                    </li>
+                    <li>
+                        Create Admin
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner Section Ends Here========== -->
+
+    <!-- ==========Create Admin Section Starts Here========== -->
+    <section class="events-single-section padding-top padding-bottom">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="form-section">
+                        <h4>Admin User Details</h4>
+                        <form id="createAdminForm" action="/admin/create-admin" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required">First Name</label>
+                                        <input type="text" class="form-control" name="firstName" required placeholder="Enter first name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required">Last Name</label>
+                                        <input type="text" class="form-control" name="lastName" required placeholder="Enter last name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required">Email Address</label>
+                                        <input type="email" class="form-control" name="email" required placeholder="Enter email address">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required">Username</label>
+                                        <input type="text" class="form-control" name="username" required placeholder="Enter username">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" required placeholder="Enter password">
+                                        <div class="password-strength" id="passwordStrength"></div>
+                                        <small class="form-text text-muted">Password must be at least 8 characters long</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required">Confirm Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword" required placeholder="Confirm password">
+                                        <div class="text-danger mt-1" id="passwordMatchError" style="display: none;">
+                                            Passwords do not match
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr class="my-4">
+                            
+                            <h5>Select Admin Role</h5>
+                            <div class="row mb-4">
+                                <% adminRoles.forEach(role => { %>
+                                <div class="col-md-6 mb-3">
+                                    <div class="admin-role-card" data-role="<%= role.id %>">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="role" id="role<%= role.id %>" value="<%= role.id %>" required>
+                                            <label class="form-check-label" for="role<%= role.id %>">
+                                                <strong><%= role.name %></strong>
+                                            </label>
+                                        </div>
+                                        <div class="role-description">
+                                            <% if (role.id === 'super_admin') { %>
+                                                Full access to all system features and settings
+                                            <% } else if (role.id === 'admin') { %>
+                                                Can manage tests, users, and view reports
+                                            <% } else if (role.id === 'moderator') { %>
+                                                Can manage tests and view requests
+                                            <% } else if (role.id === 'viewer') { %>
+                                                Read-only access to view reports and tests
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            </div>
+                            
+                            <hr class="my-4">
+                            
+                            <div class="permission-card">
+                                <h6>System Permissions</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" name="permissions[]" value="manage_tests" id="manageTests">
+                                            <label class="form-check-label" for="manageTests">
+                                                Manage Tests
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" name="permissions[]" value="manage_users" id="manageUsers">
+                                            <label class="form-check-label" for="manageUsers">
+                                                Manage Users
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" name="permissions[]" value="view_reports" id="viewReports">
+                                            <label class="form-check-label" for="viewReports">
+                                                View Reports
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" name="permissions[]" value="manage_requests" id="manageRequests">
+                                            <label class="form-check-label" for="manageRequests">
+                                                Manage Requests
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" name="permissions[]" value="system_settings" id="systemSettings">
+                                            <label class="form-check-label" for="systemSettings">
+                                                System Settings
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" name="permissions[]" value="export_data" id="exportData">
+                                            <label class="form-check-label" for="exportData">
+                                                Export Data
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Additional Notes (Optional)</label>
+                                        <textarea class="form-control" name="notes" rows="3" placeholder="Any additional information about this admin user"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-user-plus"></i> Create Admin User
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-lg px-5 ml-2" onclick="resetForm()">
+                                    <i class="fas fa-redo"></i> Reset Form
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Create Admin Section Ends Here========== -->
+
+    <!-- ==========Footer Section Starts Here========== -->
+    <footer>
+        <div class="footer-top">
+            <div class="ft-top">
+                <div class="container">
+                    <div class="row no-gutters justify-content-center">
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/01.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Phone Number : +800-123-4567 6587</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/02.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Email : admin@lonelypro.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ftt-item">
+                                <div class="ftt-inner">
+                                    <div class="ftt-thumb">
+                                        <img src="/assets/images/footer/icon/03.png" alt="footer-icon">
+                                    </div>
+                                    <div class="ftt-content">
+                                        <p class="mb-0">Address : Beverley, New York 224 US</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ft-bottom">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-about">
+                                        <h5 class="title text-uppercase">About LONELY PRO</h5>
+                                        <p>
+                                            LonelyPro is a comprehensive platform dedicated to providing 
+                                            mental health support and resources through innovative 
+                                            testing and assessment tools.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget widget-blog">
+                                        <h5 class="title text-uppercase">System Updates</h5>
+                                        <ul class="footer-blog">
+                                            <li>
+                                                <div class="content">
+                                                    <a href="#">Admin Role Management Added</a>
+                                                    <span>November 20, 2023</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="content">
+                                                    <a href="#">Enhanced Security Features</a>
+                                                    <span>November 15, 2023</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 pl-xl-4">
+                                    <div class="footer-widget widgt-form">
+                                        <h5 class="title text-uppercase">Admin Newsletter</h5>
+                                        <p>Subscribe to receive system updates and important announcements.</p>
+                                        <form class="footer-form">
+                                            <input type="email" placeholder="Enter your email" name="email">
+                                            <button type="submit">
+                                                <span>Subscribe <i class="far fa-paper-plane ml-2"></i></span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="text-center">
+                    <p class="mb-0">&copy; 2023 <a href="/">Lonely Pro</a> - Admin Dashboard v1.0</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ==========Footer Section Ends Here========== -->
+    
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="/assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/magnific-popup.min.js"></script>
+    <script src="/assets/js/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+    <script src="/assets/js/waypoints.js"></script>
+    <script src="/assets/js/odometer.min.js"></script>
+    <script src="/assets/js/viewport.jquery.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Password strength checker
+            $('#password').on('keyup', function() {
+                const password = $(this).val();
+                const strengthBar = $('#passwordStrength');
+                
+                // Reset
+                strengthBar.removeClass('strength-weak strength-fair strength-good strength-strong');
+                
+                if (password.length === 0) {
+                    strengthBar.css('width', '0%');
+                    return;
+                }
+                
+                let strength = 0;
+                
+                // Length check
+                if (password.length >= 8) strength++;
+                if (password.length >= 12) strength++;
+                
+                // Complexity checks
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                
+                // Update strength bar
+                if (strength <= 2) {
+                    strengthBar.addClass('strength-weak').css('width', '25%');
+                } else if (strength === 3) {
+                    strengthBar.addClass('strength-fair').css('width', '50%');
+                } else if (strength === 4) {
+                    strengthBar.addClass('strength-good').css('width', '75%');
+                } else {
+                    strengthBar.addClass('strength-strong').css('width', '100%');
+                }
+            });
+            
+            // Password match checker
+            $('#confirmPassword').on('keyup', function() {
+                const password = $('#password').val();
+                const confirmPassword = $(this).val();
+                const errorDiv = $('#passwordMatchError');
+                
+                if (password !== confirmPassword && confirmPassword.length > 0) {
+                    errorDiv.show();
+                } else {
+                    errorDiv.hide();
+                }
+            });
+            
+            // Admin role card selection
+            $('.admin-role-card').click(function() {
+                const radioBtn = $(this).find('.form-check-input');
+                radioBtn.prop('checked', true);
+                $('.admin-role-card').removeClass('selected');
+                $(this).addClass('selected');
+                
+                // Auto-select permissions based on role
+                const role = $(this).data('role');
+                setDefaultPermissions(role);
+            });
+            
+            // Initialize nice-select
+            $('.nice-select').niceSelect();
+            
+            // Form validation
+            $('#createAdminForm').on('submit', function(e) {
+                // Check password match
+                const password = $('#password').val();
+                const confirmPassword = $('#confirmPassword').val();
+                
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    $('#passwordMatchError').show();
+                    $('#confirmPassword').focus();
+                    return false;
+                }
+                
+                // Check password strength
+                if (password.length < 8) {
+                    e.preventDefault();
+                    alert('Password must be at least 8 characters long.');
+                    $('#password').focus();
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            // Add active class to current menu item
+            const currentPath = window.location.pathname;
+            $('.menu a').each(function() {
+                if ($(this).attr('href') === currentPath) {
+                    $(this).addClass('admin-menu-active');
+                }
+            });
+        });
+        
+        function setDefaultPermissions(role) {
+            // Reset all checkboxes
+            $('input[name="permissions[]"]').prop('checked', false);
+            
+            // Set permissions based on role
+            switch(role) {
+                case 'super_admin':
+                    $('input[name="permissions[]"]').prop('checked', true);
+                    break;
+                case 'admin':
+                    $('input[name="permissions[]"]').prop('checked', true);
+                    $('#systemSettings').prop('checked', false);
+                    break;
+                case 'moderator':
+                    $('#manageTests').prop('checked', true);
+                    $('#manageRequests').prop('checked', true);
+                    $('#viewReports').prop('checked', true);
+                    break;
+                case 'viewer':
+                    $('#viewReports').prop('checked', true);
+                    break;
+            }
+        }
+        
+        function resetForm() {
+            if (confirm('Are you sure you want to reset the form? All entered data will be lost.')) {
+                $('#createAdminForm')[0].reset();
+                $('.admin-role-card').removeClass('selected');
+                $('#passwordStrength').removeClass('strength-weak strength-fair strength-good strength-strong').css('width', '0%');
+                $('#passwordMatchError').hide();
+            }
+        }
+    </script>
+</body>
+</html>

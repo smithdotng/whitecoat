@@ -1,0 +1,324 @@
+<!-- views/phlebotomist/dashboard.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phlebotomist Dashboard – WhiteCoat</title>
+
+    <!-- LonelyPro CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/slick-theme.css">
+    <link rel="stylesheet" href="/assets/css/odometer.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --dark: #0f172a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        .phleb-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 280px;
+            background: var(--dark);
+            color: white;
+            padding: 30px 20px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .phleb-sidebar .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .phleb-sidebar .logo img {
+            height: 60px;
+        }
+        .phleb-sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .phleb-sidebar .nav-link i {
+            width: 30px;
+            font-size: 1.3rem;
+        }
+        .phleb-sidebar .nav-link:hover,
+        .phleb-sidebar .nav-link.active {
+            background: rgba(0,212,255,0.2);
+            color: var(--primary);
+        }
+        .phleb-main {
+            margin-left: 280px;
+            min-height: 100vh;
+            background: #f8fafc;
+        }
+        .phleb-header {
+            background: white;
+            padding: 20px 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px;
+        }
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+        .stat-card .icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            color: white;
+        }
+        .stat-card.earnings .icon { background: linear-gradient(135deg, #10b981, #34d399); }
+        .stat-card.completed .icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        .stat-card.pending .icon { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .stat-card.rating .icon { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        .map-container {
+            height: 500px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 40px;
+        }
+        .job-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .job-info h5 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--dark);
+        }
+        .job-meta {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin: 8px 0;
+        }
+        .job-actions button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-accept {
+            background: var(--success);
+            color: white;
+        }
+        .btn-decline {
+            background: #fee2e2;
+            color: var(--danger);
+            margin-left: 10px;
+        }
+        .schedule-calendar {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="phleb-sidebar">
+        <div class="logo">
+            <img src="/assets/images/logo/logo-white.png" alt="WhiteCoat">
+        </div>
+        <nav>
+            <a href="/phlebotomist/dashboard" class="nav-link active">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="/phlebotomist/jobs" class="nav-link">
+                <i class="fas fa-map-marker-alt"></i> Available Jobs
+            </a>
+            <a href="/phlebotomist/schedule" class="nav-link">
+                <i class="fas fa-calendar-alt"></i> My Schedule
+            </a>
+            <a href="/phlebotomist/earnings" class="nav-link">
+                <i class="fas fa-dollar-sign"></i> Earnings
+            </a>
+            <a href="/phlebotomist/profile" class="nav-link">
+                <i class="fas fa-user-circle"></i> Profile
+            </a>
+            <a href="/auth/logout" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </nav>
+        <div style="margin-top: auto; padding: 20px; text-align: center; opacity: 0.7;">
+            <small>© 2025 WhiteCoat</small>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="phleb-main">
+        <!-- Header -->
+        <div class="phleb-header">
+            <div>
+                <h2>Welcome back, Dr. Sarah Johnson</h2>
+                <p class="text-muted">Today's Overview • December 1, 2025</p>
+            </div>
+            <div class="text-right">
+                <span class="badge bg-success fs-5 px-4 py-2">Active & Verified</span>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card earnings">
+                <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+                <div class="stat-value">$3,840</div>
+                <p class="text-muted mb-0">This Month Earnings</p>
+            </div>
+            <div class="stat-card completed">
+                <div class="icon"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-value">142</div>
+                <p class="text-muted mb-0">Jobs Completed</p>
+            </div>
+            <div class="stat-card pending">
+                <div class="icon"><i class="fas fa-clock"></i></div>
+                <div class="stat-value">5</div>
+                <p class="text-muted mb-0">Pending Today</p>
+            </div>
+            <div class="stat-card rating">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <div class="stat-value">4.98</div>
+                <p class="text-muted mb-0">Patient Rating</p>
+            </div>
+        </div>
+
+        <!-- Live Job Map -->
+        <div class="map-container" id="jobMap"></div>
+
+        <!-- Today's Jobs -->
+        <h3 style="margin: 0 40px 20px; color: var(--dark);">Today's Available Jobs</h3>
+        <div class="job-card">
+            <div class="job-info">
+                <h5>Comprehensive Blood Panel + Vitamin D</h5>
+                <p class="job-meta">
+                    <i class="fas fa-map-marker-alt"></i> 1234 Oak Street, Brooklyn, NY • 2.1 miles away<br>
+                    <i class="fas fa-clock"></i> Scheduled: 10:30 AM – 11:00 AM • $95 payout
+                </p>
+            </div>
+            <div class="job-actions">
+                <button class="btn-accept">Accept Job</button>
+                <button class="btn-decline">Decline</button>
+            </div>
+        </div>
+
+        <div class="job-card">
+            <div class="job-info">
+                <h5>STD Panel (Anonymous)</h5>
+                <p class="job-meta">
+                    <i class="fas fa-map-marker-alt"></i> 5678 Pine Ave, Queens, NY • 4.8 miles away<br>
+                    <i class="fas fa-clock"></i> Flexible: 1:00 PM – 4:00 PM • $120 payout
+                </p>
+            </div>
+            <div class="job-actions">
+                <button class="btn-accept">Accept Job</button>
+                <button class="btn-decline">Decline</button>
+            </div>
+        </div>
+
+        <!-- Schedule Calendar -->
+        <div class="schedule-calendar">
+            <h3>December 2025 Schedule</h3>
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+    <script>
+        // Initialize Map with Live Jobs
+        const map = L.map('jobMap').setView([40.7128, -74.0060], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // Sample job markers
+        const jobs = [
+            { lat: 40.7489, lng: -73.9680, title: "Blood Draw • $85", time: "10:30 AM" },
+            { lat: 40.7282, lng: -73.9942, title: "STD Panel • $120", time: "2:00 PM" },
+            { lat: 40.7614, lng: -73.9776, title: "Hormone Panel • $150", time: "3:30 PM" }
+        ];
+
+        jobs.forEach(job => {
+            L.marker([job.lat, job.lng])
+                .addTo(map)
+                .bindPopup(`<b>${job.title}</b><br>${job.time}<br><button class="btn btn-sm btn-success mt-2">Accept</button>`);
+        });
+
+        // FullCalendar
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek'
+                },
+                events: [
+                    { title: '3 Jobs • $320', date: '2025-12-01', backgroundColor: '#10b981' },
+                    { title: '5 Jobs • $580', date: '2025-12-03', backgroundColor: '#3b82f6' },
+                    { title: 'Off Day', date: '2025-12-07', backgroundColor: '#64748b' }
+                ]
+            });
+            calendar.render();
+        });
+    </script>
+</body>
+</html>
