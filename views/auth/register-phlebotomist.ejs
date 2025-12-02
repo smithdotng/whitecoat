@@ -163,6 +163,16 @@
                         </div>
                     </div>
 
+                    <!-- Add this after the gender select -->
+<div class="row mt-3">
+    <div class="col-md-6">
+        <input type="email" name="email" placeholder="Email Address" required>
+    </div>
+    <div class="col-md-6">
+        <input type="tel" name="phone" placeholder="Phone Number" required>
+    </div>
+</div>
+
                     <!-- Address -->
                     <div class="section-title">Residential Address</div>
                     <div class="form-group"><input type="text" name="street" placeholder="Street Address" required></div>
@@ -271,5 +281,37 @@
             document.querySelector('.file-name').textContent = name;
         });
     </script>
+
+    <script>
+    // Basic form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const email = document.querySelector('input[name="email"]');
+        const phone = document.querySelector('input[name="phone"]');
+        
+        if (!email.value || !phone.value) {
+            e.preventDefault();
+            alert('Please fill in both email and phone fields.');
+            return false;
+        }
+        
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.value)) {
+            e.preventDefault();
+            alert('Please enter a valid email address.');
+            email.focus();
+            return false;
+        }
+        
+        // Basic phone validation (at least 10 digits)
+        const phoneDigits = phone.value.replace(/\D/g, '');
+        if (phoneDigits.length < 10) {
+            e.preventDefault();
+            alert('Please enter a valid phone number with at least 10 digits.');
+            phone.focus();
+            return false;
+        }
+    });
+</script>
 </body>
 </html>

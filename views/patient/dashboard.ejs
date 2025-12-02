@@ -14,11 +14,146 @@
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     
     <style>
+        :root {
+            --light-brown: #d2b48c;
+            --medium-brown: #a0522d;
+            --dark-brown: #8b4513;
+            --light-brown-hover: #e6d4b8;
+            --brown-gradient: linear-gradient(135deg, #d2b48c 0%, #a0522d 100%);
+        }
+        
         .badge.bg-success { background-color: #28a745 !important; color: white; }
         .badge.bg-warning { background-color: #ffc107 !important; color: #343a40; }
         .badge.bg-danger { background-color: #dc3545 !important; color: white; }
         .badge.bg-info { background-color: #17a2b8 !important; color: white; }
         .badge { padding: 0.5em 0.75em; }
+        
+        /* Light Brown Button Styles */
+        .btn-brown {
+            background-color: var(--light-brown);
+            border-color: var(--light-brown);
+            color: #333;
+        }
+        
+        .btn-brown:hover, .btn-brown:focus, .btn-brown:active {
+            background-color: var(--dark-brown);
+            border-color: var(--dark-brown);
+            color: white;
+        }
+        
+        .btn-outline-brown {
+            color: var(--medium-brown);
+            border-color: var(--light-brown);
+            background-color: transparent;
+        }
+        
+        .btn-outline-brown:hover {
+            background-color: var(--light-brown);
+            border-color: var(--light-brown);
+            color: #333;
+        }
+        
+        .dashboard-welcome {
+            background: var(--brown-gradient);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .quick-action-card {
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .quick-action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .quick-action-card i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--medium-brown);
+        }
+        
+        .no-orders-state {
+            padding: 40px 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .no-orders-state i {
+            font-size: 60px;
+            color: #adb5bd;
+            margin-bottom: 20px;
+        }
+        
+        .order-status-badge {
+            font-size: 11px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .recent-orders-table {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        /* Custom primary color override for bootstrap */
+        .btn-primary {
+            background-color: var(--light-brown);
+            border-color: var(--light-brown);
+            color: #333;
+        }
+        
+        .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+            background-color: var(--dark-brown);
+            border-color: var(--dark-brown);
+            color: white;
+        }
+        
+        .btn-outline-primary {
+            color: var(--medium-brown);
+            border-color: var(--light-brown);
+            background-color: transparent;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--light-brown);
+            border-color: var(--light-brown);
+            color: #333;
+        }
+        
+        /* Text colors for brown theme */
+        .text-brown {
+            color: var(--medium-brown) !important;
+        }
+        
+        .text-light-brown {
+            color: var(--light-brown) !important;
+        }
+        
+        .text-dark-brown {
+            color: var(--dark-brown) !important;
+        }
+        
+        /* Icon colors */
+        .text-primary {
+            color: var(--medium-brown) !important;
+        }
     </style>
 </head>
 <body>
@@ -50,14 +185,30 @@
 
     <section class="padding-top padding-bottom">
         <div class="container">
-            <div class="row justify-content-center g-4">
+            <!-- Welcome Card -->
+            <div class="dashboard-welcome">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3 class="mb-3">Hello, <%= patient.firstName %>!</h3>
+                        <p class="mb-0">Welcome to your WhiteCoat dashboard. Here you can order tests, view results, and manage your health profile.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="/patient/tests" class="btn btn-light btn-lg btn-brown">
+                            <i class="fas fa-vial me-2"></i> Order a Test
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row justify-content-center g-4 mb-5">
                 <div class="col-lg-3 col-sm-6">
                     <div class="lab-item style-2 text-center">
                         <div class="lab-thumb">
-                            <i class="flaticon-shopping-cart text-primary"></i>
+                            <i class="flaticon-shopping-cart text-brown"></i>
                         </div>
                         <div class="lab-content">
-                            <h3 class="odometer" data-odometer-final="<%= totalOrders %>"><%= totalOrders %></h3>
+                            <h3><%= totalOrders || 0 %></h3>
                             <p>Total Orders</p>
                         </div>
                     </div>
@@ -68,7 +219,7 @@
                             <i class="flaticon-waiting text-warning"></i>
                         </div>
                         <div class="lab-content">
-                            <h3 class="odometer" data-odometer-final="<%= pendingOrders %>"><%= pendingOrders %></h3>
+                            <h3><%= pendingOrders || 0 %></h3>
                             <p>Pending Tests</p>
                         </div>
                     </div>
@@ -79,59 +230,64 @@
                             <i class="flaticon-checklist text-success"></i>
                         </div>
                         <div class="lab-content">
-                            <h3 class="odometer" data-odometer-final="<%= resultsReady %>"><%= resultsReady %></h3>
+                            <h3><%= resultsReady || 0 %></h3>
                             <p>Results Ready</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="lab-item style-2 text-center">
-                        <div class="lab-thumb">
-                            <i class="flaticon-money-bag text-info"></i>
-                        </div>
-                        <div class="lab-content">
-                            <h3>$<span class="odometer" data-odometer-final="<%= affiliateEarnings %>"><%= affiliateEarnings.toFixed(2) %></span></h3>
-                            <p>Affiliate Earnings</p>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-    </section>
 
-    <section class="padding-bottom">
-        <div class="container">
+            <!-- Main Content Area -->
             <div class="row g-5">
+                <!-- Quick Actions -->
                 <div class="col-lg-5">
-                    <div class="account-wrapper">
-                        <h4 class="title mb-4">Quick Actions</h4>
-                        <div class="d-grid gap-3">
-                            <a href="/patient/tests" class="custom-button">
-                                <span><i class="fas fa-vial me-3"></i> Order New Test</span>
-                            </a>
-                            <a href="/affiliate/dashboard" class="custom-button theme-two">
-                                <span><i class="fas fa-handshake me-3"></i> Affiliate Program</span>
-                            </a>
-                            <a href="/patient/results" class="custom-button theme-three">
-                                <span><i class="fas fa-file-medical me-3"></i> View All Results</span>
-                            </a>
-                            <a href="/patient/profile" class="custom-button theme-four">
-                                <span><i class="fas fa-user-cog me-3"></i> Update Profile</span>
-                            </a>
-                        </div>
+                    <div class="quick-action-card">
+                        <i class="fas fa-vial text-brown"></i>
+                        <h4 class="text-dark-brown">Order New Test</h4>
+                        <p class="text-muted">Browse our catalog of anonymous health tests</p>
+                        <a href="/patient/tests" class="btn btn-brown btn-lg w-100 mt-3">
+                            Browse Tests
+                        </a>
+                    </div>
+                    
+                    <div class="quick-action-card">
+                        <i class="fas fa-calendar-check text-brown"></i>
+                        <h4 class="text-dark-brown">Schedule Appointment</h4>
+                        <p class="text-muted">Book a convenient time for sample collection</p>
+                        <a href="/patient/schedule" class="btn btn-outline-brown btn-lg w-100 mt-3">
+                            Schedule Now
+                        </a>
+                    </div>
+                    
+                    <div class="quick-action-card">
+                        <i class="fas fa-user-circle text-brown"></i>
+                        <h4 class="text-dark-brown">Update Profile</h4>
+                        <p class="text-muted">Keep your contact information up to date</p>
+                        <a href="/patient/profile" class="btn btn-outline-brown btn-lg w-100 mt-3">
+                            Edit Profile
+                        </a>
                     </div>
                 </div>
 
+                <!-- Recent Orders -->
                 <div class="col-lg-7">
-                    <div class="account-wrapper">
-                        <h4 class="title mb-4">Recent Orders</h4>
+                    <div class="recent-orders-table">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="title mb-0 text-dark-brown">Recent Orders</h4>
+                            <% if (recentOrders && recentOrders.length > 0) { %>
+                                <a href="/patient/orders" class="btn btn-sm btn-outline-brown">
+                                    View All Orders
+                                </a>
+                            <% } %>
+                        </div>
+                        
                         <% if (recentOrders && recentOrders.length > 0) { %>
                             <div class="table-responsive">
-                                <table class="table table-style-two">
+                                <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>Order ID</th>
+                                            <th>Order #</th>
                                             <th>Test</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -139,85 +295,117 @@
                                     </thead>
                                     <tbody>
                                         <% recentOrders.forEach(order => { %>
-                                            <tr>
-                                                <td><%= new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
-                                                <td><strong>#<%= order._id.toString().slice(-8) %></strong></td>
-                                                <td><%= order.tests.map(t => t.testId?.name || 'Unknown Test').join(', ') %></td>
-                                                <td>
-                                                    <span class="badge bg-<%= 
-                                                         order.status === 'completed' ? 'success' : 
-                                                         order.status === 'cancelled' ? 'danger' : 
-                                                         ['pending','scheduled','sample_collected','at_lab','processing'].includes(order.status) ? 'warning' : 'info'
-                                                     %>">
-                                                         <%= order.status.replace(/_/g, ' ').toUpperCase() %>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <a href="/patient/orders/<%= order._id %>" class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>
+                                                <small class="text-muted">
+                                                    <%= new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
+                                                </small>
+                                            </td>
+                                            <td>
+                                                <strong class="text-dark-brown">#<%= order.orderNumber || order._id.toString().slice(-6).toUpperCase() %></strong>
+                                            </td>
+                                            <td>
+                                                <% if (order.tests && order.tests.length > 0) { %>
+                                                    <small class="text-brown"><%= order.tests[0].testId?.name || 'Test' %></small>
+                                                    <% if (order.tests.length > 1) { %>
+                                                        <br><small class="text-muted">+<%= order.tests.length - 1 %> more</small>
+                                                    <% } %>
+                                                <% } else { %>
+                                                    <small class="text-muted">No test details</small>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <% 
+                                                    let statusClass = 'secondary';
+                                                    let statusText = order.status || 'pending';
+                                                    
+                                                    if (statusText === 'completed') {
+                                                        statusClass = 'success';
+                                                    } else if (statusText === 'cancelled') {
+                                                        statusClass = 'danger';
+                                                    } else if (['pending', 'processing', 'scheduled'].includes(statusText)) {
+                                                        statusClass = 'warning';
+                                                    }
+                                                %>
+                                                <span class="order-status-badge bg-<%= statusClass %>">
+                                                    <%= statusText.replace(/_/g, ' ') %>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="/patient/orders/<%= order._id %>" class="btn btn-sm btn-outline-brown">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                         <% }) %>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="text-center mt-4">
-                                <a href="/patient/orders" class="custom-button"><span>View All Orders</span></a>
-                            </div>
                         <% } else { %>
-                            <div class="text-center py-5">
-                                <i class="flaticon-medical-report display-1 text-muted"></i>
-                                <p class="mt-3 text-muted">No orders yet. Start your health journey today!</p>
-                                <a href="/patient/tests" class="custom-button mt-3"><span>Order Your First Test</span></a>
+                            <div class="no-orders-state">
+                                <i class="fas fa-clipboard-list text-brown"></i>
+                                <h5 class="mt-3 text-dark-brown">No Orders Yet</h5>
+                                <p class="text-muted mb-4">You haven't placed any test orders yet.</p>
+                                <a href="/patient/tests" class="btn btn-brown btn-lg">
+                                    <i class="fas fa-vial me-2"></i> Order Your First Test
+                                </a>
                             </div>
                         <% } %>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-medical text-brown fa-2x mb-3"></i>
+                                    <h6 class="text-dark-brown">Test Results</h6>
+                                    <p class="text-muted small">View completed test reports</p>
+                                    <a href="/patient/results" class="btn btn-outline-brown btn-sm">View Results</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-question-circle text-brown fa-2x mb-3"></i>
+                                    <h6 class="text-dark-brown">Need Help?</h6>
+                                    <p class="text-muted small">Contact support or read FAQs</p>
+                                    <a href="/contact" class="btn btn-outline-brown btn-sm">Get Help</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <%- include('../partials/footer') %>
-
     <script src="/assets/js/jquery.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/odometer.min.js"></script>
-    <script src="/assets/js/viewport.jquery.js"></script>
     <script src="/assets/js/main.js"></script>
     <script>
-        // Animate counters when in viewport
-        // Ensure odometer runs correctly with a timeout
         $(document).ready(function() {
-            setTimeout(function() {
-                $('.odometer').each(function() {
-                    $(this).html($(this).data('odometer-final') || 0);
-                });
-            }, 500);
-        });
-        
-        // You can keep the scroll logic for a more controlled animation effect if desired
-        function isScrolledIntoView(elem) {
-            const docViewTop = $(window).scrollTop();
-            const docViewBottom = docViewTop + $(window).height();
-            const elemTop = $(elem).offset().top;
-            const elemBottom = elemTop + $(elem).height();
-            return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
-        }
-
-        $(window).on('scroll', function() {
-            $('.odometer').each(function() {
-                if (isScrolledIntoView(this)) {
-                    const final = $(this).data('odometer-final') || 0;
-                    $(this).html(final);
+            // Add hover effects to cards
+            $('.lab-item, .quick-action-card').hover(
+                function() {
+                    $(this).css('transform', 'translateY(-5px)');
+                },
+                function() {
+                    $(this).css('transform', 'translateY(0)');
                 }
-            });
+            );
+            
+            // Auto-dismiss alerts after 5 seconds
+            setTimeout(function() {
+                $('.alert').alert('close');
+            }, 5000);
+            
+            // Initialize WOW if available
+            if (typeof WOW !== 'undefined') {
+                new WOW().init();
+            }
         });
-        
-        // Re-initialize WOW if needed
-        if (typeof WOW !== 'undefined') {
-             new WOW().init();
-        }
     </script>
 </body>
 </html>

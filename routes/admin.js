@@ -1,25 +1,238 @@
-// routes/admin.js (COMPLETED)
+// routes/admin.js
 const express = require('express');
 const router = express.Router();
 const Test = require('../models/Test');
+const Phlebotomist = require('../models/Phlebotomist'); // Add this import
+const bcrypt = require('bcryptjs'); // For generating passwords
 
 // Middleware to ensure the user is logged in AND is an admin
 const requireAdmin = (req, res, next) => {
-  if (!req.session.user || req.session.user.role !== 'admin') {
-    req.session.error = 'Admin access required';
-    return res.redirect('/auth/login');
-  }
-  next();
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    req.session.error = 'Admin access required';
+    return res.redirect('/auth/login');
+  }
+  next();
 };
 
 router.use(requireAdmin);
 
 // --- Admin Dashboard Route ---
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', async (req, res) => {
+  try {
+    // Get counts for dashboard
+    const pendingPhlebsCount = await Phlebotomist.countDocuments({ status: 'pending_review' });
+    const approvedPhlebsCount = await Phlebotomist.countDocuments({ status: 'approved', isActive: true });
+    const totalPhlebsCount = await Phlebotomist.countDocuments();
+    const totalTestsCount = await Test.countDocuments();
+    
     res.render('admin/dashboard', { 
-        title: 'Admin Dashboard – WhiteCoat' 
+      title: 'Admin Dashboard – WhiteCoat',
+      pendingPhlebsCount,
+      approvedPhlebsCount,
+      totalPhlebsCount,
+      totalTestsCount
     });
+  } catch (err) {
+    console.error('Dashboard error:', err);
+    req.session.error = 'Failed to load dashboard data';
+    res.redirect('/admin/dashboard');
+  }
 });
+
+// --- Phlebotomist Management Routes ---
+
+// GET: List All Phlebotomist Applications
+router.get('/phlebotomists', async (req, res) => {
+  try {
+    const statusFilter = req.query.status || 'all';
+    
+    let query = {};
+    if (statusFilter !== 'all') {
+      query.status = statusFilter;
+    }
+    
+    const phlebotomists = await Phlebotomist.find(query)
+      .sort({ appliedAt: -1 })
+      .select('firstName lastName email phone status appliedAt isActive');
+    
+    res.render('admin/phlebotomists/list', {
+      title: 'Manage Phlebotomists – WhiteCoat',
+      phlebotomists,
+      statusFilter,
+      success: req.session.success || null,
+      error: req.session.error || null
+    });
+    
+    // Clear flash messages
+    delete req.session.success;
+    delete req.session.error;
+  } catch (err) {
+    console.error('List phlebotomists error:', err);
+    req.session.error = 'Failed to load phlebotomist applications';
+    res.redirect('/admin/dashboard');
+  }
+});
+
+// GET: View Single Phlebotomist Application
+router.get('/phlebotomists/view/:id', async (req, res) => {
+  try {
+    const phlebotomist = await Phlebotomist.findById(req.params.id);
+    
+    if (!phlebotomist) {
+      req.session.error = 'Phlebotomist application not found';
+      return res.redirect('/admin/phlebotomists');
+    }
+    
+    res.render('admin/phlebotomists/view', {
+      title: `Application: ${phlebotomist.firstName} ${phlebotomist.lastName} – WhiteCoat`,
+      phlebotomist,
+      success: req.session.success || null,
+      error: req.session.error || null
+    });
+    
+    // Clear flash messages
+    delete req.session.success;
+    delete req.session.error;
+  } catch (err) {
+    console.error('View phlebotomist error:', err);
+    req.session.error = 'Failed to load phlebotomist details';
+    res.redirect('/admin/phlebotomists');
+  }
+});
+
+// POST: Approve Phlebotomist Application
+router.post('/phlebotomists/approve/:id', async (req, res) => {
+  try {
+    const { password } = req.body;
+    
+    if (!password) {
+      req.session.error = 'Password is required for approval';
+      return res.redirect(`/admin/phlebotomists/view/${req.params.id}`);
+    }
+    
+    const phlebotomist = await Phlebotomist.findById(req.params.id);
+    
+    if (!phlebotomist) {
+      req.session.error = 'Phlebotomist application not found';
+      return res.redirect('/admin/phlebotomists');
+    }
+    
+    // Generate a secure password
+    const hashedPassword = await bcrypt.hash(password, 12);
+    
+    // Update phlebotomist status
+    phlebotomist.status = 'approved';
+    phlebotomist.password = hashedPassword;
+    phlebotomist.isActive = true;
+    phlebotomist.approvedAt = new Date();
+    await phlebotomist.save();
+    
+    req.session.success = `Phlebotomist ${phlebotomist.firstName} ${phlebotomist.lastName} approved successfully!`;
+    res.redirect('/admin/phlebotomists');
+    
+  } catch (err) {
+    console.error('Approve phlebotomist error:', err);
+    req.session.error = 'Failed to approve phlebotomist';
+    res.redirect(`/admin/phlebotomists/view/${req.params.id}`);
+  }
+});
+
+// POST: Reject Phlebotomist Application
+router.post('/phlebotomists/reject/:id', async (req, res) => {
+  try {
+    const { reason } = req.body;
+    
+    const phlebotomist = await Phlebotomist.findById(req.params.id);
+    
+    if (!phlebotomist) {
+      req.session.error = 'Phlebotomist application not found';
+      return res.redirect('/admin/phlebotomists');
+    }
+    
+    // Update status
+    phlebotomist.status = 'rejected';
+    await phlebotomist.save();
+    
+    req.session.success = `Phlebotomist application rejected${reason ? ': ' + reason : ''}`;
+    res.redirect('/admin/phlebotomists');
+    
+  } catch (err) {
+    console.error('Reject phlebotomist error:', err);
+    req.session.error = 'Failed to reject phlebotomist';
+    res.redirect(`/admin/phlebotomists/view/${req.params.id}`);
+  }
+});
+
+// POST: Suspend Phlebotomist
+router.post('/phlebotomists/suspend/:id', async (req, res) => {
+  try {
+    const phlebotomist = await Phlebotomist.findById(req.params.id);
+    
+    if (!phlebotomist) {
+      req.session.error = 'Phlebotomist not found';
+      return res.redirect('/admin/phlebotomists');
+    }
+    
+    phlebotomist.status = 'suspended';
+    phlebotomist.isActive = false;
+    await phlebotomist.save();
+    
+    req.session.success = `Phlebotomist ${phlebotomist.firstName} ${phlebotomist.lastName} suspended`;
+    res.redirect('/admin/phlebotomists');
+    
+  } catch (err) {
+    console.error('Suspend phlebotomist error:', err);
+    req.session.error = 'Failed to suspend phlebotomist';
+    res.redirect('/admin/phlebotomists');
+  }
+});
+
+// POST: Reactivate Phlebotomist
+router.post('/phlebotomists/reactivate/:id', async (req, res) => {
+  try {
+    const phlebotomist = await Phlebotomist.findById(req.params.id);
+    
+    if (!phlebotomist) {
+      req.session.error = 'Phlebotomist not found';
+      return res.redirect('/admin/phlebotomists');
+    }
+    
+    phlebotomist.status = 'approved';
+    phlebotomist.isActive = true;
+    await phlebotomist.save();
+    
+    req.session.success = `Phlebotomist ${phlebotomist.firstName} ${phlebotomist.lastName} reactivated`;
+    res.redirect('/admin/phlebotomists');
+    
+  } catch (err) {
+    console.error('Reactivate phlebotomist error:', err);
+    req.session.error = 'Failed to reactivate phlebotomist';
+    res.redirect('/admin/phlebotomists');
+  }
+});
+
+// POST: Delete Phlebotomist (Admin only - careful!)
+router.post('/phlebotomists/delete/:id', async (req, res) => {
+  try {
+    const phlebotomist = await Phlebotomist.findById(req.params.id);
+    
+    if (!phlebotomist) {
+      req.session.error = 'Phlebotomist not found';
+      return res.redirect('/admin/phlebotomists');
+    }
+    
+    await Phlebotomist.findByIdAndDelete(req.params.id);
+    
+    req.session.success = `Phlebotomist ${phlebotomist.firstName} ${phlebotomist.lastName} deleted`;
+    res.redirect('/admin/phlebotomists');
+    
+  } catch (err) {
+    console.error('Delete phlebotomist error:', err);
+    req.session.error = 'Failed to delete phlebotomist';
+    res.redirect('/admin/phlebotomists');
+  }
+});
+
 
 // --- Test Management Routes ---
 

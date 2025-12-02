@@ -77,9 +77,27 @@ router.post('/login', [
 
     try {
         const { email, password } = req.body;
+        
+        console.log('=== LOGIN ATTEMPT ===');
+        console.log('Email:', email);
+        console.log('Password length:', password.length);
+        
         const user = await User.findOne({ email: email.toLowerCase() });
+        
+        console.log('User found:', !!user);
+        if (user) {
+            console.log('User ID:', user._id);
+            console.log('User password hash exists:', !!user.password);
+            console.log('Password hash starts with:', user.password ? user.password.substring(0, 20) + '...' : 'No password');
+            console.log('Has comparePassword method:', typeof user.comparePassword === 'function');
+            
+            // Test password comparison
+            const isMatch = await user.comparePassword(password);
+            console.log('Password match result:', isMatch);
+        }
 
         if (!user || !await user.comparePassword(password)) {
+            console.log('Login failed: invalid credentials');
             req.session.error = 'Invalid email or password';
             return res.redirect('/auth/login');
         }
@@ -93,16 +111,15 @@ router.post('/login', [
         user.ipAddress = req.ip || req.connection.remoteAddress;
         await user.save();
 
-        // **FIXED BLOCK START**
         req.session.user = {
             _id: user._id,
             email: user.email,
             role: user.role,
             userType: user.userType || 'individual'
         };
-        // **FIXED BLOCK END**
 
         req.session.success = 'Welcome back!';
+        console.log('Login successful, redirecting to:', getDashboardPath(user));
         res.redirect(getDashboardPath(user));
 
     } catch (err) {
@@ -129,17 +146,18 @@ router.get('/register', (req, res) => {
 });
 
 // ==================== POST: Register (Patient/Corporate) ====================
-// ==================== POST: Register (Patient/Corporate) ====================
 router.post('/register', [
     body('email').isEmail().normalizeEmail(),
     body('phone').isMobilePhone('any'),
     body('password').isLength({ min: 8 }),
     body('confirmPassword').custom((v, { req }) => v === req.body.password || 'Passwords do not match'),
-    body('firstName').if(body('userType').equals('individual')).notEmpty().withMessage('First Name is required.'),
-    body('lastName').if(body('userType').equals('individual')).notEmpty().withMessage('Last Name is required.'),
-    body('dateOfBirth').if(body('userType').equals('individual')).isISO8601().withMessage('Date of Birth is required.'),
-    body('residentialStreet').if(body('userType').equals('individual')).notEmpty().withMessage('Street address is required.'),
-    body('companyName').if(body('userType').equals('corporate')).notEmpty().withMessage('Company Name is required.')
+    body('firstName').notEmpty().withMessage('First Name is required.'),
+    body('lastName').notEmpty().withMessage('Last Name is required.'),
+    body('dateOfBirth').isISO8601().withMessage('Date of Birth is required.'),
+    body('residentialStreet').notEmpty().withMessage('Street address is required.'),
+    body('residentialCity').notEmpty().withMessage('City is required.'),
+    body('residentialState').notEmpty().withMessage('State is required.'),
+    body('residentialZip').notEmpty().withMessage('ZIP Code is required.')
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -148,10 +166,10 @@ router.post('/register', [
     }
 
     const {
-        email, password, phone, userType = 'individual',
+        email, password, phone, 
         firstName, middleName, lastName, gender, dateOfBirth,
         residentialStreet, residentialCity, residentialState, residentialZip,
-        companyName, companySector, companyStreet, companyCity, companyState, companyZip
+        occupation
     } = req.body;
 
     try {
@@ -165,72 +183,80 @@ router.post('/register', [
             email: email.toLowerCase(),
             password,
             phone,
-            userType,
+            userType: 'individual',
             role: 'patient',
-            ...(userType === 'individual' && {
-                firstName: firstName?.trim(),
-                middleName: (middleName || '').trim(),
-                lastName: lastName?.trim(),
-                gender,
-                dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
-                residentialAddress: residentialStreet ? {
-                    street: residentialStreet.trim(),
-                    city: residentialCity.trim(),
-                    state: residentialState.trim(),
-                    zipCode: residentialZip.trim(),
-                    country: 'United States'
-                } : null
-            }),
-            ...(userType === 'corporate' && {
-                companyName: companyName.trim(),
-                companySector: companySector || '',
-                companyAddress: companyStreet ? {
-                    street: companyStreet.trim(),
-                    city: companyCity.trim(),
-                    state: companyState.trim(),
-                    zipCode: companyZip.trim(),
-                    country: 'United States'
-                } : null
-            })
+            firstName: firstName.trim(),
+            middleName: (middleName || '').trim(),
+            lastName: lastName.trim(),
+            gender,
+            dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
+            residentialAddress: {
+                street: residentialStreet.trim(),
+                city: residentialCity.trim(),
+                state: residentialState.trim(),
+                zipCode: residentialZip.trim(),
+                country: 'United States'
+            },
+            occupation: occupation || ''
         });
 
         await user.save();
 
-        // 2. Create the corresponding Patient document IF it's an individual user
-        if (userType === 'individual') {
-            const patient = new Patient({
-                userId: user._id, // LINKED TO USER ID
-                firstName: user.firstName,
-                lastName: user.lastName,
-                dateOfBirth: user.dateOfBirth,
-                phone: user.phone,
-                // Pass the entire address object
-                address: user.residentialAddress
-            });
-            await patient.save();
+        // 2. Create the corresponding Patient document
+        // IMPORTANT: Check if dateOfBirth is valid
+        const dobDate = dateOfBirth ? new Date(dateOfBirth) : null;
+        if (!dobDate || isNaN(dobDate.getTime())) {
+            req.session.error = 'Invalid date of birth';
+            return res.redirect('/auth/register');
         }
+
+        const patient = new Patient({
+            userId: user._id, // LINKED TO USER ID
+            firstName: user.firstName,
+            lastName: user.lastName,
+            dateOfBirth: dobDate,
+            phone: user.phone,
+            address: {
+                street: user.residentialAddress.street,
+                city: user.residentialAddress.city,
+                state: user.residentialAddress.state,
+                zipCode: user.residentialAddress.zipCode,
+                country: user.residentialAddress.country || 'United States'
+            }
+        });
+
+        await patient.save();
 
         // 3. Set up the session
         req.session.user = {
             _id: user._id,
             email: user.email,
             role: user.role,
-            userType: user.userType
+            userType: user.userType,
+            patientId: patient._id // Store patient ID in session too
         };
 
-        req.session.success = userType === 'individual'
-            ? `Welcome, ${firstName}!`
-            : `Account created for ${companyName}!`;
-
+        req.session.success = `Welcome, ${firstName}!`;
+        
         // 4. Redirect to dashboard
-        res.redirect(getDashboardPath(user));
+        res.redirect('/patient/dashboard');
 
     } catch (err) {
         console.error('Registration error:', err);
-        req.session.error = 'Registration failed. Please check server logs.';
+        
+        // More specific error messages
+        if (err.code === 11000) {
+            req.session.error = 'Email already registered';
+        } else if (err.name === 'ValidationError') {
+            req.session.error = Object.values(err.errors).map(e => e.message).join(', ');
+        } else {
+            req.session.error = 'Registration failed. Please try again.';
+        }
+        
         res.redirect('/auth/register');
     }
 });
+
 
 // ==================== GET: Phlebotomist Registration Page ====================
 router.get('/register-phlebotomist', (req, res) => {
@@ -255,6 +281,7 @@ router.post('/register-phlebotomist', upload.single('cv'), async (req, res) => {
     try {
         const {
             firstName, middleName, lastName, gender,
+            email, phone, // ADD THESE
             street, city, state, zipCode,
             ref1Name, ref1Email, ref1Phone, ref1Relation,
             ref2Name, ref2Email, ref2Phone, ref2Relation
@@ -269,6 +296,8 @@ router.post('/register-phlebotomist', upload.single('cv'), async (req, res) => {
             firstName: firstName.trim(),
             middleName: (middleName || '').trim(),
             lastName: lastName.trim(),
+            email: email.trim().toLowerCase(), // ADD THIS
+            phone: phone.trim(), // ADD THIS
             gender,
             address: {
                 street: street.trim(),
@@ -293,9 +322,22 @@ router.post('/register-phlebotomist', upload.single('cv'), async (req, res) => {
 
     } catch (err) {
         console.error('Phlebotomist apply error:', err);
-        req.session.error = err.message.includes('PDF')
-            ? 'Please upload a valid PDF file'
-            : 'Application failed. Please try again.';
+        
+        // Check for duplicate email error
+        if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
+            req.session.error = 'This email is already registered. Please use a different email.';
+        } else if (err.message.includes('PDF')) {
+            req.session.error = 'Please upload a valid PDF file';
+        } else if (err.name === 'ValidationError') {
+            // More specific validation errors
+            const messages = [];
+            if (err.errors.email) messages.push('Email is required');
+            if (err.errors.phone) messages.push('Phone is required');
+            req.session.error = messages.join(', ');
+        } else {
+            req.session.error = 'Application failed. Please try again.';
+        }
+        
         res.redirect('/auth/register-phlebotomist');
     }
 });
@@ -358,6 +400,30 @@ router.post('/login-phlebotomist', async (req, res) => {
         console.error('Phlebotomist login error:', err);
         req.session.error = 'Server error. Try again.';
         res.redirect('/auth/login-phlebotomist');
+    }
+});
+
+// Add this temporary route to debug
+router.get('/debug-users', async (req, res) => {
+    try {
+        const users = await User.find({}).select('email password role createdAt').lean();
+        
+        // Check if passwords are hashed
+        users.forEach(user => {
+            user.passwordIsHashed = user.password && 
+                (user.password.startsWith('$2a$') || 
+                 user.password.startsWith('$2b$') ||
+                 user.password.startsWith('$2y$'));
+            user.passwordPreview = user.password ? 
+                user.password.substring(0, 30) + '...' : 'No password';
+        });
+        
+        res.json({
+            totalUsers: users.length,
+            users: users
+        });
+    } catch (err) {
+        res.json({ error: err.message });
     }
 });
 

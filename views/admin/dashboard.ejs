@@ -277,6 +277,54 @@
                 </div>
 
                 <!-- Quick Access Cards -->
+
+                <!-- Quick Access Cards -->
+<div class="col-lg-3 col-md-6 col-sm-10">
+    <a href="/admin/add-test" class="dashboard-card card-add-test">
+        <i class="fas fa-plus-circle"></i>
+        <h4>Add New Test</h4>
+        <p class="mt-2 mb-0">Create a new test or quiz.</p>
+    </a>
+</div>
+
+<div class="col-lg-3 col-md-6 col-sm-10">
+    <a href="/admin/manage-tests" class="dashboard-card card-manage-test">
+        <i class="fas fa-edit"></i>
+        <h4>Manage Tests</h4>
+        <p class="mt-2 mb-0">Edit or delete existing tests.</p>
+    </a>
+</div>
+
+<div class="col-lg-3 col-md-6 col-sm-10">
+    <a href="/admin/view-tests" class="dashboard-card card-view-test">
+        <i class="fas fa-clipboard-list"></i>
+        <h4>View Tests</h4>
+        <p class="mt-2 mb-0">Review all available tests.</p>
+    </a>
+</div>
+
+<div class="col-lg-3 col-md-6 col-sm-10">
+    <a href="/admin/view-requests" class="dashboard-card card-view-requests">
+        <i class="fas fa-inbox"></i>
+        <h4>View Requests</h4>
+        <p class="mt-2 mb-0">Check user submissions and requests.</p>
+    </a>
+</div>
+
+<!-- ADD THIS NEW CARD FOR PHLEBOTOMIST MANAGEMENT -->
+<div class="col-lg-3 col-md-6 col-sm-10 mt-4">
+    <a href="/admin/phlebotomists" class="dashboard-card" style="background-color: #f0f8ff; color: #1e90ff; border-left: 5px solid #1e90ff;">
+        <i class="fas fa-user-md"></i>
+        <h4>Phlebotomists</h4>
+        <p class="mt-2 mb-0">Manage phlebotomist applications</p>
+        <% if (pendingPhlebsCount && pendingPhlebsCount > 0) { %>
+            <span class="badge badge-danger mt-2" style="background-color: #ff4757; color: white; padding: 3px 8px; border-radius: 10px;">
+                <%= pendingPhlebsCount %> pending
+            </span>
+        <% } %>
+    </a>
+</div>
+
                 <div class="col-lg-3 col-md-6 col-sm-10">
                     <a href="/admin/add-test" class="dashboard-card card-add-test">
                         <i class="fas fa-plus-circle"></i>
@@ -313,6 +361,7 @@
             <hr class="my-5">
 
            <!-- System Overview -->
+<!-- System Overview -->
 <div class="row system-overview">
     <div class="col-12">
         <h3 class="mb-4">Lab Overview</h3>
@@ -343,6 +392,36 @@
             <i class="fas fa-file-medical"></i>
             <h5>Pending Results</h5>
             <h2 class="mb-0"><%= data.pendingResults || 25 %></h2>
+        </div>
+    </div>
+    
+    <!-- ADD PHLEBOTOMIST STATS CARDS -->
+    <div class="col-md-6 col-lg-3 mt-4">
+        <div class="dashboard-card" style="background-color: #e8f4fd; color: #2196f3; border-left: 5px solid #2196f3;">
+            <i class="fas fa-user-clock"></i>
+            <h5>Pending Phlebotomists</h5>
+            <h2 class="mb-0"><%= pendingPhlebsCount || 0 %></h2>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mt-4">
+        <div class="dashboard-card" style="background-color: #e8f5e9; color: #4caf50; border-left: 5px solid #4caf50;">
+            <i class="fas fa-user-check"></i>
+            <h5>Active Phlebotomists</h5>
+            <h2 class="mb-0"><%= approvedPhlebsCount || 0 %></h2>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mt-4">
+        <div class="dashboard-card" style="background-color: #fff3e0; color: #ff9800; border-left: 5px solid #ff9800;">
+            <i class="fas fa-users"></i>
+            <h5>Total Phlebotomists</h5>
+            <h2 class="mb-0"><%= totalPhlebsCount || 0 %></h2>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mt-4">
+        <div class="dashboard-card" style="background-color: #fce4ec; color: #e91e63; border-left: 5px solid #e91e63;">
+            <i class="fas fa-user-slash"></i>
+            <h5>Suspended Phlebotomists</h5>
+            <h2 class="mb-0"><%= suspendedPhlebsCount || 0 %></h2>
         </div>
     </div>
 </div>

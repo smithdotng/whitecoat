@@ -5,6 +5,15 @@ const adminController = require('../controllers/adminController');
 // Admin Dashboard Routes
 router.get('/dashboard', adminController.renderDashboard);
 
+// Phlebotomist Management Routes
+router.get('/phlebotomists', adminController.renderPhlebotomists);
+router.get('/phlebotomists/view/:id', adminController.renderViewPhlebotomist);
+router.post('/phlebotomists/approve/:id', adminController.approvePhlebotomist);
+router.post('/phlebotomists/reject/:id', adminController.rejectPhlebotomist);
+router.post('/phlebotomists/suspend/:id', adminController.suspendPhlebotomist);
+router.post('/phlebotomists/reactivate/:id', adminController.reactivatePhlebotomist);
+router.post('/phlebotomists/delete/:id', adminController.deletePhlebotomist);
+
 // Test Management Routes
 router.get('/add-test', adminController.renderAddTest);
 router.post('/add-test', adminController.addNewTest);

@@ -20,6 +20,7 @@ const servicesRoutes = require('./routes/servicesRoutes');
 
 // Mock Model Import (Required for homepage logic)
 const Test = require('./models/Test'); // <--- Ensure this path is correct if Test model is used
+const Order = require('./models/Order');
 
 // --- 2. Database Connection ---
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/whitecoat', {
@@ -91,36 +92,7 @@ const upload = multer({
 
 // --- 5. Application Routes (Manual/Legacy/Public) ---
 
-// Phlebotomist Registration (Manual Example)
-app.get('/register-phlebotomist', (req, res) => {
-    res.render('auth/register-phlebotomist', {
-        title: 'Join as Phlebotomist – WhiteCoat'
-    });
-});
 
-app.post('/register-phlebotomist', upload.single('cv'), async (req, res) => {
-    try {
-        // Mocking save logic
-        const Phlebotomist = mongoose.models.Phlebotomist || { save: () => Promise.resolve() };
-
-        if (!req.file) {
-            req.session.error = 'CV upload is required (PDF only)';
-            return res.redirect('/register-phlebotomist');
-        }
-
-        console.log(`Mocking Phlebotomist application for ${req.body.firstName} ${req.body.lastName}`);
-
-        req.session.success = 'Application submitted! We will review it within 48 hours.';
-        res.redirect('/register-phlebotomist');
-
-    } catch (err) {
-        console.error('Phlebotomist apply error:', err);
-        req.session.error = err.message.includes('PDF')
-            ? 'Please upload a valid PDF file'
-            : 'Application failed. Please try again.';
-        res.redirect('/register-phlebotomist');
-    }
-});
 
 // Affiliate and Phlebotomist Dashboards (Legacy/Temporary)
 app.get('/affiliate/dashboard', (req, res) => {

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %> - WhiteCoat Admin</title>
+    
+    <!-- LonelyPro CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    
+    <style>
+        .detail-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        .detail-card h5 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .detail-row {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .detail-value {
+            color: #333;
+        }
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        .badge-pending {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .badge-approved {
+            background-color: #28a745;
+            color: white;
+        }
+        .badge-rejected {
+            background-color: #dc3545;
+            color: white;
+        }
+        .badge-suspended {
+            background-color: #6c757d;
+            color: white;
+        }
+        .cv-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .cv-link:hover {
+            background: #0056b3;
+            color: white;
+            text-decoration: none;
+        }
+        .reference-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #007bff;
+        }
+        .action-buttons {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader & Scroll Top -->
+    <div class="overlayer"><div class="loader"><div class="loader-inner"></div></div></div>
+    <div class="scrollToTop"><i class="fas fa-angle-up"></i></div>
+    <div class="overlay"></div>
+    <div class="overlayTwo"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-area">
+                    <ul class="left">
+                        <li><i class="far fa-clock"></i> Always Live</li>
+                        <li><i class="fas fa-shield-alt"></i> Admin Dashboard</li>
+                    </ul>
+                    <ul class="social-icons">
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/assets/images/logo/logo.png" alt="logo" style="width: 200px;">
+                        </a>
+                    </div>
+                    <div class="menu-area">
+                        <ul class="menu">
+                            <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+                            <li><a href="/admin/add-test">Add Test</a></li>
+                            <li><a href="/admin/manage-tests">Manage Tests</a></li>
+                            <li><a href="/admin/phlebotomists">Phlebotomists</a></li>
+                            <li><a href="/admin/view-requests">Requests</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header bg_img" data-background="/assets/images/banner/page-header.jpg">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="title">Phlebotomist Application</h1>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/admin/dashboard">Admin</a></li>
+                    <li><a href="/admin/phlebotomists">Phlebotomists</a></li>
+                    <li>View Application</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flash Messages -->
+    <% if (success_msg) { %>
+        <div class="container mt-4">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <%= success_msg %>
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        </div>
+    <% } %>
+    
+    <% if (error_msg) { %>
+        <div class="container mt-4">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <%= error_msg %>
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- Main Content -->
+    <section class="padding-top padding-bottom">
+        <div class="container">
+            <div class="row">
+                <!-- Main Details -->
+                <div class="col-lg-8">
+                    <div class="detail-card">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">Application Details</h5>
+                            <span class="status-badge <%= 
+                                phlebotomist.status === 'pending_review' ? 'badge-pending' :
+                                phlebotomist.status === 'approved' ? 'badge-approved' :
+                                phlebotomist.status === 'rejected' ? 'badge-rejected' :
+                                'badge-suspended'
+                            %>">
+                                <%= phlebotomist.status.replace('_', ' ').toUpperCase() %>
+                            </span>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="detail-row">
+                                    <div class="detail-label">Full Name</div>
+                                    <div class="detail-value h5">
+                                        <%= phlebotomist.firstName %> 
+                                        <%= phlebotomist.middleName ? phlebotomist.middleName + ' ' : '' %>
+                                        <%= phlebotomist.lastName %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-row">
+                                    <div class="detail-label">Gender</div>
+                                    <div class="detail-value text-capitalize">
+                                        <%= phlebotomist.gender %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Email Address</div>
+                            <div class="detail-value">
+                                <a href="mailto:<%= phlebotomist.email %>"><%= phlebotomist.email %></a>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Phone Number</div>
+                            <div class="detail-value">
+                                <a href="tel:<%= phlebotomist.phone %>"><%= phlebotomist.phone %></a>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Address</div>
+                            <div class="detail-value">
+                                <%= phlebotomist.address.street %><br>
+                                <%= phlebotomist.address.city %>, <%= phlebotomist.address.state %> 
+                                <%= phlebotomist.address.zipCode %><br>
+                                <%= phlebotomist.address.country %>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">CV / Resume</div>
+                            <div class="detail-value">
+                                <% if (phlebotomist.cv) { %>
+                                    <a href="<%= phlebotomist.cv %>" class="cv-link" target="_blank">
+                                        <i class="fas fa-file-pdf mr-2"></i>View CV (PDF)
+                                    </a>
+                                <% } else { %>
+                                    <span class="text-muted">No CV uploaded</span>
+                                <% } %>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Application Date</div>
+                            <div class="detail-value">
+                                <%= new Date(phlebotomist.appliedAt).toLocaleDateString() %>
+                                at <%= new Date(phlebotomist.appliedAt).toLocaleTimeString() %>
+                            </div>
+                        </div>
+                        
+                        <% if (phlebotomist.approvedAt) { %>
+                        <div class="detail-row">
+                            <div class="detail-label">Approval Date</div>
+                            <div class="detail-value">
+                                <%= new Date(phlebotomist.approvedAt).toLocaleDateString() %>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                    
+                    <!-- References -->
+                    <div class="detail-card">
+                        <h5>Professional References</h5>
+                        
+                        <% phlebotomist.references.forEach((ref, index) => { %>
+                        <div class="reference-card">
+                            <h6>Reference <%= index + 1 %></h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="detail-label">Name</div>
+                                    <div class="detail-value"><%= ref.name %></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="detail-label">Relationship</div>
+                                    <div class="detail-value"><%= ref.relation %></div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <div class="detail-label">Email</div>
+                                    <div class="detail-value">
+                                        <a href="mailto:<%= ref.email %>"><%= ref.email %></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="detail-label">Phone</div>
+                                    <div class="detail-value">
+                                        <a href="tel:<%= ref.phone %>"><%= ref.phone %></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                    </div>
+                </div>
+                
+                <!-- Action Sidebar -->
+                <div class="col-lg-4">
+                    <div class="action-buttons">
+                        <div class="detail-card">
+                            <h5>Application Actions</h5>
+                            
+                            <% if (phlebotomist.status === 'pending_review') { %>
+                                <!-- Approve Form -->
+                                <form action="/admin/phlebotomists/approve/<%= phlebotomist._id %>" method="POST" class="mb-3">
+                                    <div class="form-group">
+                                        <label for="password">Set Temporary Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" 
+                                               required minlength="8" placeholder="Enter password">
+                                        <small class="form-text text-muted">
+                                            Minimum 8 characters. The phlebotomist will reset this on first login.
+                                        </small>
+                                    </div>
+                                    <button type="submit" class="btn btn-success btn-block">
+                                        <i class="fas fa-check mr-2"></i>Approve Application
+                                    </button>
+                                </form>
+                                
+                                <!-- Reject Form -->
+                                <form action="/admin/phlebotomists/reject/<%= phlebotomist._id %>" method="POST">
+                                    <div class="form-group">
+                                        <label for="reason">Reason for Rejection (Optional)</label>
+                                        <textarea class="form-control" id="reason" name="reason" 
+                                                  rows="3" placeholder="Provide reason..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-danger btn-block">
+                                        <i class="fas fa-times mr-2"></i>Reject Application
+                                    </button>
+                                </form>
+                            <% } %>
+                            
+                            <% if (phlebotomist.status === 'approved') { %>
+                                <form action="/admin/phlebotomists/suspend/<%= phlebotomist._id %>" method="POST" class="mb-3">
+                                    <button type="submit" class="btn btn-warning btn-block" 
+                                            onclick="return confirm('Are you sure you want to suspend this phlebotomist?')">
+                                        <i class="fas fa-pause mr-2"></i>Suspend Phlebotomist
+                                    </button>
+                                </form>
+                            <% } %>
+                            
+                            <% if (phlebotomist.status === 'suspended') { %>
+                                <form action="/admin/phlebotomists/reactivate/<%= phlebotomist._id %>" method="POST" class="mb-3">
+                                    <button type="submit" class="btn btn-success btn-block" 
+                                            onclick="return confirm('Are you sure you want to reactivate this phlebotomist?')">
+                                        <i class="fas fa-play mr-2"></i>Reactivate Phlebotomist
+                                    </button>
+                                </form>
+                            <% } %>
+                            
+                            <!-- Delete Button -->
+                            <form action="/admin/phlebotomists/delete/<%= phlebotomist._id %>" method="POST">
+                                <button type="submit" class="btn btn-outline-danger btn-block mt-3" 
+                                        onclick="return confirm('WARNING: This will permanently delete this phlebotomist and all associated data.\n\nAre you absolutely sure?')">
+                                    <i class="fas fa-trash mr-2"></i>Delete Permanently
+                                </button>
+                            </form>
+                            
+                            <!-- Back Button -->
+                            <a href="/admin/phlebotomists" class="btn btn-outline-secondary btn-block mt-3">
+                                <i class="fas fa-arrow-left mr-2"></i>Back to List
+                            </a>
+                        </div>
+                        
+                        <!-- Quick Stats -->
+                        <div class="detail-card mt-4">
+                            <h5>Application Info</h5>
+                            <div class="detail-row">
+                                <div class="detail-label">Application ID</div>
+                                <div class="detail-value">
+                                    <small><%= phlebotomist._id %></small>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value">
+                                    <span class="status-badge <%= 
+                                        phlebotomist.status === 'pending_review' ? 'badge-pending' :
+                                        phlebotomist.status === 'approved' ? 'badge-approved' :
+                                        phlebotomist.status === 'rejected' ? 'badge-rejected' :
+                                        'badge-suspended'
+                                    %>" style="font-size: 12px;">
+                                        <%= phlebotomist.status.replace('_', ' ').toUpperCase() %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Active Status</div>
+                                <div class="detail-value">
+                                    <% if (phlebotomist.isActive) { %>
+                                        <span class="text-success">Active</span>
+                                    <% } else { %>
+                                        <span class="text-warning">Inactive</span>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Days Since Application</div>
+                                <div class="detail-value">
+                                    <% 
+                                        const appliedDate = new Date(phlebotomist.appliedAt);
+                                        const today = new Date();
+                                        const diffTime = Math.abs(today - appliedDate);
+                                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                    %>
+                                    <%= diffDays %> days
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="text-center">
+                    <p class="mb-0">&copy; 2023 WhiteCoat - Phlebotomist Management System</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+    <script>
+        // Auto-dismiss alerts
+        setTimeout(function() {
+            $('.alert').alert('close');
+        }, 5000);
+        
+        // Password strength check
+        $('#password').on('keyup', function() {
+            const password = $(this).val();
+            const strength = checkPasswordStrength(password);
+            const feedback = $(this).next('.form-text');
+            
+            if (password.length < 8) {
+                feedback.html('<span class="text-danger">Password must be at least 8 characters</span>');
+            } else if (strength < 3) {
+                feedback.html('<span class="text-warning">Password strength: Weak</span>');
+            } else if (strength < 5) {
+                feedback.html('<span class="text-info">Password strength: Medium</span>');
+            } else {
+                feedback.html('<span class="text-success">Password strength: Strong</span>');
+            }
+        });
+        
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]+/)) strength++;
+            if (password.match(/[A-Z]+/)) strength++;
+            if (password.match(/[0-9]+/)) strength++;
+            if (password.match(/[$@#&!]+/)) strength++;
+            return strength;
+        }
+    </script>
+</body>
+</html>
