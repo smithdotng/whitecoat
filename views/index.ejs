@@ -29,6 +29,20 @@
     <link rel="stylesheet" href="/assets/css/flaticon.css">
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+    <style>
+    /* Apply Georgia to the entire site */
+    body, p, li, a, span, div, input, button, label, footer, header, section {
+        font-family: Georgia, serif !important;
+    }
+
+    /* Exclude major titles (you can adjust which heading levels you want exempt) */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: "Playfair Display", serif !important;
+    }
+</style>
 </head>
 <body>
 
@@ -80,8 +94,8 @@
                                 </ul>
                                 <div class="d-none d-lg-block">
                                     <% if (!user) { %>
-                                        <a href="/auth/login" class="custom-button"><span>Sign In</span></a>
-                                        <a href="/auth/register" class="custom-button theme-two ml-3"><span>Get Started</span></a>
+                                        <a href="/auth/login" class="custom-button" style="background-color: #6dd19c;"><span>Sign In</span></a>
+                                        <a href="/auth/register" class="custom-button"style="background-color: #6dd19c;"><span>Get Started</span></a>
                                     <% } else { %>
                                         <a href="/<%= user.role %>/dashboard" class="custom-button"><span>Dashboard</span></a>
                                         <a href="/auth/logout" class="custom-button transparent ml-3"><span>Logout</span></a>
@@ -119,19 +133,19 @@
             <div class="d-flex flex-wrap justify-content-between align-items-center">
                 <div class="banner-content style-2">
                     
-                    <h1 class="title">
-                        <span class="theme-two">Anonymous</span> Lab Testing<br>
-                        <span class="theme-two">At Home.</span>
+                    <h1 class="title" style="color: #8b4513;">
+                        Anonymous Lab Testing<br>
+                        At Home.
                     </h1>
                     <p class="lead">
                         Certified phlebotomists come to you. Accredited labs process your tests.<br>
-                        Your identity and results are **permanently separated** — by design.
+                        Your identity and results are <strong>permanently separated</strong> — by design.
                     </p>
 
                     <% if (!user) { %>
-                        <a href="/auth/register" class="custom-button"><span>Get Started <i class="fas fa-shield-alt ml-2"></i></span></a>
+                        <a href="/auth/register" class="custom-button" style="background-color: #6dd19c;"><span>Get Started <i class="fas fa-shield-alt ml-2"></i></span></a>
                     <% } else if (user.role === 'patient') { %>
-                        <a href="/patient/tests" class="custom-button"><span>Order Tests <i class="fas fa-vial ml-2"></i></span></a>
+                        <a href="/patient/tests" class="custom-button" style="background-color: #6dd19c;"><span>Order Tests <i class="fas fa-vial ml-2"></i></span></a>
                     <% } else { %>
                         <a href="/<%= user.role %>/dashboard" class="custom-button"><span>Go to Dashboard</span></a>
                     <% } %>
@@ -151,31 +165,31 @@
             <div class="col-lg-6 col-12 mb-5 mb-lg-0">
                 <div class="about-content-part">
                     <div class="acp-content">
-                        <h6 class="cate" style="color: #a0522d;">Privacy-First Lab Testing</h6>
-                        <h3 class="title text-uppercase" style="color: #333;">Book Your Test, We Handle The Rest.</h3>
-                        <h6 class="sub-title" style="color: #a0522d;">With WhiteCoat, getting essential lab tests is simple, discreet, and built around your schedule. </h6>
+                        <h6 class="cate" style="color: #a0522d; padding-bottom: 10px;">Diagnostics on your terms</h6>
+                        <h3 style="color: #333;" style="padding-top: 100px;">Book Your Test, We Handle The Rest.</h3>
+                        <h6 class="sub-title" style="color: #a0522d; padding-top: 10px;"">With WhiteCoat, getting essential lab tests is simple, discreet, and built around your schedule. </h6>
 
                         <p>Here’s how we deliver privacy and convenience:</p>
 
                         <ul class="feature-list mt-3 mb-4">
-                            <li><i class="fas fa-check-circle text-success me-2"></i> <strong>Order Online:</strong> Choose your test from our secure platform.</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> <strong>At-Home Collection:</strong> A certified phlebotomist comes to your preferred location.</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> <strong>Secure Processing:</strong> Samples are processed by accredited labs that <strong>never know your identity</strong>.</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> <strong>Private Results:</strong> Access your results instantly and securely on your personal dashboard.</li>
-                        </ul>
+    <li><i class="fas fa-check-circle me-2" style="color:#6dd19c;"></i> <strong>Order Online:</strong> Choose your test from our secure platform.</li>
+    <li><i class="fas fa-check-circle me-2" style="color:#6dd19c;"></i> <strong>At-Home Collection:</strong> A certified phlebotomist comes to your preferred location.</li>
+    <li><i class="fas fa-check-circle me-2" style="color:#6dd19c;"></i> <strong>Secure Processing:</strong> Samples are processed by accredited labs that <strong>never know your identity</strong>.</li>
+    <li><i class="fas fa-check-circle me-2" style="color:#6dd19c;"></i> <strong>Private Results:</strong> Access your results instantly and securely on your personal dashboard.</li>
+</ul>
 
                         <p> <strong>Regain control of your healthcare journey with WhiteCoat.</strong></p>
 
-                        <a href="/services/tests" class="custom-button mt-4" style="background: linear-gradient(135deg, #d2b48c 0%, #a0522d 100%); border: none;">
+                        <a href="/services/tests" class="custom-button mt-4" style="background-color: #6dd19c; border: none;">
                             <span>Book a Test Today <i class="fas fa-vial ml-2"></i></span>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-12">
-    <div class="abs-content-part">
+            <div class="col-lg-6 col-12" >
+    `
         <img src="/assets/images/feature/order-test.jpg" alt="Order Lab Test" style="width: 100%; height: auto; display: block; object-fit: cover; border-radius: 8px;">
-    </div>
+    
 </div>
         </div>
     </div>
@@ -189,7 +203,7 @@
     <p class="text-white-50 mb-0">Start earning money on your schedule. Apply today to offer vital, flexible healthcare services.</p>
 </div>
 <div class="col-lg-4 text-lg-end">
-    <a href="/auth/register-phlebotomist" class="custom-button" style="background: white; color: #a0522d; border: none;">
+    <a href="/auth/register-phlebotomist" class="custom-button" style="background: #6dd19c; color: #ffffff; border: none;">
         <span>Apply Now <i class="fas fa-handshake ml-2"></i></span>
     </a>
 </div>
@@ -236,7 +250,7 @@
         <div class="container">
             <div class="row justify-content-center mb-5">
                 <div class="col-lg-8 text-center">
-                    <h6 class="cate">Why WhiteCoat?</h6>
+                    <h6 class="cate">Why The White Coat?</h6>
                     <h3 class="title text-uppercase">Healthcare That Respects Your Privacy</h3>
                 </div>
             </div>
@@ -303,7 +317,7 @@
                                         <p><%= test.description %></p>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="h4 mb-0 text-primary">N<%= test.price.toFixed(2) %></span>
-                                            <a href="/services/tests/<%= test.slug %>" class="custom-button small"><span>Order</span></a>
+                                            <a href="/services/tests/<%= test.slug %>" class="custom-button small" style="background-color: #6dd19c;"><span>Order</span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -317,7 +331,7 @@
                 <% } %>
                 </div>
             <div class="text-center" style="padding-top: 20px;">
-                <a href="/services/tests" class="custom-button"><span>Browse All Tests <i class="fas fa-vial ml-2"></i></span></a>
+                <a href="/services/tests" class="custom-button" style="background-color: #6dd19c;"><span>Browse All Tests <i class="fas fa-vial ml-2"></i></span></a>
             </div>
         </div>
     </div>
@@ -330,7 +344,7 @@
                         <h2 class="text-uppercase" style="padding-top: 50px;">Your Privacy. Our Priority.</h2>
                         <p class="lead">WhiteCoat was built for people who value medical privacy above everything else.</p>
                         <% if (!user) { %>
-                            <a href="/auth/register" class="custom-button mt-4"><span>Join WhiteCoat Today</span></a>
+                            <a href="/auth/register" class="custom-button mt-4" style="background-color: #6dd19c;"> <span>Join The White Coat Today</span></a>
                         <% } %>
                     </div>
                 </div>
@@ -339,7 +353,7 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="text-center">
-                    <p class="mb-0">&copy; 2025 WhiteCoat – Anonymous Healthcare Testing. All Rights Reserved.</p>
+                    <p class="mb-0">&copy; 2025 The White Coat – Anonymous Healthcare Testing. All Rights Reserved.</p>
                 </div>
             </div>
         </div>
